@@ -23,10 +23,7 @@ export class AnalyticsUrlParams {
 		const storedValue = this.cookiesSupported
 			? getCookie(COOKIES_DEVICE_IDS)
 			: null;
-		this.setDeviceIds(
-			storedValue,
-			this.mixpanel ? this.mixpanel.get_distinct_id() : null,
-		);
+		this.setDeviceIds(storedValue, null);
 	}
 
 	private setDeviceIds(
@@ -91,7 +88,8 @@ export class AnalyticsUrlParams {
 	 * @return all anonymous device IDs that can be passed to other sites
 	 */
 	allDeviceIds() {
-		return this.deviceIds;
+		const mixpanelId = this.mixpanel ? [this.mixpanel.get_distinct_id()] : [];
+		return union(this.deviceIds, mixpanelId);
 	}
 
 	/**

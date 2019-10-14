@@ -20,5 +20,5 @@ const analytics = new AnalyticsUrlParams(mixpanel);
 
 analytics.consumeUrlParameters(window.location.search);
 
-const signupUrl = '/signup?' + analytics.deviceIdQuery();
+const signupUrl = '/signup?' + analytics.getDeviceIdsQueryString();
 ```

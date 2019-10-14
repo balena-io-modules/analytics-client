@@ -50,13 +50,18 @@ test('not changing current URL', () => {
 
 interface MpMock {
 	registerParams: any;
+	distinctIdRetrieved: boolean;
 }
 
 const mpMock = () =>
 	({
 		registerParams: null,
+		distinctIdRetrieved: false,
 
-		get_distinct_id: () => 'test_mp_distinct_id',
+		get_distinct_id() {
+			this.distinctIdRetrieved = true;
+			return 'test_mp_distinct_id';
+		},
 		register(params: any) {
 			this.registerParams = params;
 		},
@@ -76,6 +81,11 @@ test('use mixpanel distinct ID', () => {
 	['d1', 'd2', 'd3', 'd4', 'test_mp_distinct_id'].forEach(id =>
 		expect(urlParams.allDeviceIds()).toContain(id),
 	);
+});
+
+test("don't call mixpanel in constructor", () => {
+	const [, mock] = mpUrlParameters();
+	expect(mock.distinctIdRetrieved).toBeFalsy();
 });
 
 test('update mixpanel state', () => {
@@ -109,10 +119,10 @@ test('device IDs with mixpanel', () => {
 	expect(urlParams.allDeviceIds()).toStrictEqual(['test_mp_distinct_id']);
 	urlParams.consumeUrlParameters('d_id=d1,d2,d3&other=value');
 	expect(urlParams.allDeviceIds()).toStrictEqual([
-		'test_mp_distinct_id',
 		'd1',
 		'd2',
 		'd3',
+		'test_mp_distinct_id',
 	]);
 });
 
