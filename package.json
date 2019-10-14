@@ -1,0 +1,53 @@
+{
+  "name": "analytics-client",
+  "version": "0.0.1",
+  "description": "Convenient builders to compose analytics tools",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/balena-io/analytics-client"
+  },
+  "license": "Apache-2.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "test": "jest",
+    "prettify": "prettier --config ./node_modules/resin-lint/config/.prettierrc --write *.ts \"{src,test,typings}/**/*.ts\"",
+    "lint": "resin-lint --typescript src/ test/ && tsc --noEmit",
+    "build": "npm run test && tsc && webpack",
+    "prepublish": "npm run build"
+  },
+  "dependencies": {
+    "@analytics/cookie-utils": "^0.2.2",
+    "typescript": "^3.6.3"
+  },
+  "devDependencies": {
+    "@types/jest": "^24.0.18",
+    "@types/lodash": "^4.14.142",
+    "@types/mixpanel-browser": "^2.23.1",
+    "husky": "^3.0.9",
+    "jest": "^24.9.0",
+    "lint-staged": "^9.4.2",
+    "mixpanel-browser": "^2.29.1",
+    "resin-lint": "^3.1.0",
+    "ts-jest": "^24.1.0",
+    "ts-loader": "^6.2.0",
+    "webpack": "^4.41.1",
+    "webpack-cli": "^3.3.9"
+  },
+  "lint-staged": {
+    "*.ts": [
+      "prettier --config ./node_modules/resin-lint/config/.prettierrc --write",
+      "resin-lint --typescript --no-prettier",
+      "git add"
+    ],
+    "test/**/*.ts": [
+      "resin-lint --typescript --no-prettier --tests"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged",
+      "pre-push": "npm run lint"
+    }
+  }
+}
