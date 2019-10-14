@@ -129,7 +129,8 @@ test('device IDs with mixpanel', () => {
 test('preserve device IDs in cookies', () => {
 	new AnalyticsUrlParams().consumeUrlParameters('d_id=1');
 	new AnalyticsUrlParams().consumeUrlParameters('d_id=2');
-	expect(new AnalyticsUrlParams().allDeviceIds()).toStrictEqual(['1', '2']);
+	expect(new AnalyticsUrlParams().allDeviceIds()).toContain('1');
+	expect(new AnalyticsUrlParams().allDeviceIds()).toContain('2');
 });
 
 test('encodes URI component', () => {
