@@ -1,12 +1,14 @@
 import {
 	getCookie,
 	hasCookieSupport,
+	removeCookie,
 	setCookie,
 } from '@analytics/cookie-utils';
 import { Mixpanel } from 'mixpanel-browser';
 
 const URL_PARAM_DEVICE_ID = 'd_id';
 const COOKIES_DEVICE_IDS = '__analytics_dids';
+const COOKIES_TTL_MS = 300 * 24 * 60 * 60 * 1000; // 300 days.
 
 const deviceIdSeparator = /\s*,\s*/;
 
@@ -35,14 +37,19 @@ export class AnalyticsUrlParams {
 		}
 		this.deviceIds = new Set(list.concat(Array.from(this.deviceIds)));
 		if (this.cookiesSupported) {
-			setCookie(COOKIES_DEVICE_IDS, Array.from(this.deviceIds).join(','));
+			setCookie(
+				COOKIES_DEVICE_IDS,
+				Array.from(this.deviceIds).join(','),
+				COOKIES_TTL_MS,
+				'/',
+			);
 		}
 		return list.length > 0 ? list[0] : null;
 	}
 
 	clearCookies() {
 		if (this.cookiesSupported) {
-			setCookie(COOKIES_DEVICE_IDS, '');
+			removeCookie(COOKIES_DEVICE_IDS);
 		}
 	}
 
