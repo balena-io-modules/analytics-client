@@ -17,8 +17,7 @@
     "prepublish": "npm run build"
   },
   "dependencies": {
-    "@analytics/cookie-utils": "^0.2.2",
-    "typescript": "^3.6.3"
+    "@analytics/cookie-utils": "^0.2.2"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
@@ -31,6 +30,7 @@
     "resin-lint": "^3.1.0",
     "ts-jest": "^24.1.0",
     "ts-loader": "^6.2.0",
+    "typescript": "^3.6.3",
     "webpack": "^4.41.1",
     "webpack-cli": "^3.3.9"
   },
