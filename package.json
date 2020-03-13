@@ -11,8 +11,8 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest",
-    "prettify": "prettier --config ./node_modules/resin-lint/config/.prettierrc --write *.ts \"{src,test,typings}/**/*.ts\"",
-    "lint": "resin-lint --typescript src/ test/ && tsc --noEmit",
+    "prettify": "resin-lint --typescript --fix src/ test/ typings/ index.ts",
+    "lint": "resin-lint --typescript src/ test/ typings/ index.ts && tsc --noEmit",
     "build": "npm run test && tsc && webpack",
     "prepublish": "npm run build"
   },
@@ -27,7 +27,7 @@
     "jest": "^24.9.0",
     "lint-staged": "^9.4.2",
     "mixpanel-browser": "^2.29.1",
-    "resin-lint": "^3.1.0",
+    "resin-lint": "^3.3.1",
     "ts-jest": "^24.1.0",
     "ts-loader": "^6.2.0",
     "typescript": "^3.6.3",
@@ -36,9 +36,7 @@
   },
   "lint-staged": {
     "*.ts": [
-      "prettier --config ./node_modules/resin-lint/config/.prettierrc --write",
-      "resin-lint --typescript --no-prettier",
-      "git add"
+      "resin-lint --typescript --fix"
     ],
     "test/**/*.ts": [
       "resin-lint --typescript --no-prettier --tests"

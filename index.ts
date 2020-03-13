@@ -1,1 +1,1 @@
-export { AnalyticsUrlParams }  from "./src/url-params";
+export { AnalyticsUrlParams } from './src/url-params';
