@@ -1,14 +1,9 @@
-import {
-	getCookie,
-	hasCookieSupport,
-	removeCookie,
-	setCookie,
-} from '@analytics/cookie-utils';
+import Cookies from 'js-cookie';
 import { Mixpanel } from 'mixpanel-browser';
 
 const URL_PARAM_DEVICE_ID = 'd_id';
 const COOKIES_DEVICE_IDS = '__analytics_dids';
-const COOKIES_TTL_MS = 300 * 24 * 60 * 60 * 1000; // 300 days.
+const COOKIES_TTL_DAYS = 300;
 
 const deviceIdSeparator = /\s*,\s*/;
 
@@ -17,18 +12,15 @@ const deviceIdSeparator = /\s*,\s*/;
  * like anonymous device identifier.
  */
 export class AnalyticsUrlParams {
-	private readonly cookiesSupported = hasCookieSupport();
 	private deviceIds: Set<string> = new Set();
 
 	constructor(private mixpanel?: Mixpanel) {
-		const storedValue = this.cookiesSupported
-			? getCookie(COOKIES_DEVICE_IDS)
-			: null;
+		const storedValue = Cookies.get(COOKIES_DEVICE_IDS);
 		this.setDeviceIds(storedValue, null);
 	}
 
 	private setDeviceIds(
-		inputIdString: string | null,
+		inputIdString: string | null | undefined,
 		currentDeviceId: string | null,
 	) {
 		const list = inputIdString ? inputIdString.split(deviceIdSeparator) : [];
@@ -36,21 +28,15 @@ export class AnalyticsUrlParams {
 			list.push(currentDeviceId);
 		}
 		this.deviceIds = new Set(list.concat(Array.from(this.deviceIds)));
-		if (this.cookiesSupported) {
-			setCookie(
-				COOKIES_DEVICE_IDS,
-				Array.from(this.deviceIds).join(','),
-				COOKIES_TTL_MS,
-				'/',
-			);
-		}
+		Cookies.set(COOKIES_DEVICE_IDS, Array.from(this.deviceIds).join(','), {
+			expires: COOKIES_TTL_DAYS,
+			path: '/',
+		});
 		return list.length > 0 ? list[0] : null;
 	}
 
 	clearCookies() {
-		if (this.cookiesSupported) {
-			removeCookie(COOKIES_DEVICE_IDS);
-		}
+		Cookies.remove(COOKIES_DEVICE_IDS);
 	}
 
 	/**
