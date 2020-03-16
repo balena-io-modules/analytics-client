@@ -17,10 +17,11 @@
     "prepublish": "npm run build"
   },
   "dependencies": {
-    "@analytics/cookie-utils": "^0.2.2"
+    "js-cookie": "^2.2.1"
   },
   "devDependencies": {
     "@types/jest": "^24.0.18",
+    "@types/js-cookie": "^2.2.5",
     "@types/lodash": "^4.14.142",
     "@types/mixpanel-browser": "^2.23.1",
     "husky": "^3.0.9",
