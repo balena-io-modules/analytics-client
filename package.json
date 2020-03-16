@@ -11,12 +11,14 @@
   "types": "dist/index.d.ts",
   "scripts": {
     "test": "jest",
-    "prettify": "resin-lint --typescript --fix src/ test/ typings/ index.ts",
-    "lint": "resin-lint --typescript src/ test/ typings/ index.ts && tsc --noEmit",
-    "build": "npm run test && tsc && webpack",
+    "prettify": "resin-lint --typescript --fix src/ test/ index.ts",
+    "lint": "resin-lint --typescript src/ test/ index.ts && tsc --noEmit",
+    "build": "npm run lint && npm run test && tsc && webpack",
     "prepublish": "npm run build"
   },
   "dependencies": {
+    "@types/amplitude-js": "^5.8.0",
+    "amplitude-js": "^5.10.0",
     "js-cookie": "^2.2.1"
   },
   "devDependencies": {

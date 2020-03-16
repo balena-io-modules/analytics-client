@@ -1,9 +1,10 @@
 import Cookies from 'js-cookie';
 import { Mixpanel } from 'mixpanel-browser';
-
-const URL_PARAM_DEVICE_ID = 'd_id';
-const COOKIES_DEVICE_IDS = '__analytics_dids';
-const COOKIES_TTL_DAYS = 300;
+import {
+	COOKIES_DEVICE_IDS,
+	COOKIES_TTL_DAYS,
+	URL_PARAM_DEVICE_ID,
+} from './config';
 
 const deviceIdSeparator = /\s*,\s*/;
 
