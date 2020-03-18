@@ -23,6 +23,27 @@ urlParamsHandler.consumeUrlParameters(window.location.search);
 const signupUrl = '/signup?' + urlParamsHandler.getDeviceIdsQueryString();
 ```
 
+UI experiments definition.
+```typescript
+import { createClient, LocalExperiment } from 'analytics-client';
+
+const client = createClient({projectName: 'my-project'});
+
+type Variation = 'modal' | 'sidebar-left' | 'sidebar-right';
+const experiment = new LocalExperiment<Variation>('WelcomeUI', client)
+    .define('modal', 50)
+    .define('sidebar-left', 25)
+    .define('sidebar-right', 25);
+
+switch (experiment.engage(client.deviceId())) {
+    case 'modal':
+        showModal();
+        break;
+    // ...
+}
+```
+
+
 ## Using without npm packages
 
 Load the script from unpkg CDN (replacing `{version}` with an actual version you need to use):

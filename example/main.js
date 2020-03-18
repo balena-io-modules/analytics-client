@@ -18,3 +18,8 @@ client.amplitude().identify(id);
 client.amplitude().logEvent('Test', {args: 'test event'});
 
 client.linkDevices('test-user-1', urlHandler.allDeviceIds());
+
+const exp = new analyticsClient.LocalExperiment('test-exp')
+    .define('v1', 50)
+    .define('v2', 50);
+console.log('Variation:', exp.engage(client.deviceId()));
