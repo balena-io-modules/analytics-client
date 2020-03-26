@@ -1,5 +1,5 @@
 const client = analyticsClient.createClient({
-    endpoint: 'localhost:3001/amplitude',
+    endpoint: 'localhost:3001',
     projectName: 'balena-test',
     amplitude: {
         forceHttps: false
