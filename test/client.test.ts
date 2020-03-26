@@ -21,3 +21,11 @@ test('device linking', () => {
 	client.linkDevices('test-user', ['d1', 'd2']);
 	expect(identifyCallsCount).toBe(3); // Number of devices + original device ID.
 });
+
+test('amplitude config', () => {
+	const client = createClient({
+		projectName: 'balena-test',
+		endpoint: `some.host`,
+	});
+	expect(client.amplitude().options.apiEndpoint).toEqual('some.host/amplitude');
+});

@@ -46,7 +46,7 @@ class DefaultClient implements Client {
 
 		const amplConfig: amplitude.Config = Object.assign({}, config.amplitude);
 		if (config.endpoint) {
-			amplConfig.apiEndpoint = config.endpoint;
+			amplConfig.apiEndpoint = `${config.endpoint}/amplitude`;
 		}
 		amplConfig.cookieExpiration = COOKIES_TTL_DAYS;
 		this.amplitudeInstance.init(config.projectName, undefined, amplConfig);
