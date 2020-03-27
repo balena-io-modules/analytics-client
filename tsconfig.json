@@ -9,6 +9,7 @@
     "noUnusedParameters": true,
     "preserveConstEnums": true,
     "removeComments": true,
+    "resolveJsonModule": true,
     "sourceMap": false,
     "strictNullChecks": true,
     "moduleResolution": "node",
