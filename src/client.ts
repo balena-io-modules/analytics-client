@@ -2,6 +2,7 @@ import amplitude from 'amplitude-js';
 import Cookies from 'js-cookie';
 import { Mixpanel } from 'mixpanel-browser';
 import mixpanel = require('mixpanel-browser');
+import { version } from '../package.json';
 import { COOKIES_TTL_DAYS } from './config';
 
 /**
@@ -37,6 +38,9 @@ interface AmplitudeOverride {
 	apiEndpoint?: string;
 	cookieExpiration?: number;
 }
+
+const identifyObject = () =>
+	new amplitude.Identify().set('AnalyticsClientVersion', version);
 
 class DefaultClient implements Client {
 	private readonly amplitudeInstance: amplitude.AmplitudeClient;
@@ -89,12 +93,14 @@ class DefaultClient implements Client {
 		const originalDeviceId = this.deviceId();
 		this.amplitudeInstance.setUserId(userId);
 
+		const identifyData = identifyObject();
+
 		// Make sure thee current device ID is associated.
-		this.amplitudeInstance.identify(new amplitude.Identify());
+		this.amplitudeInstance.identify(identifyData);
 
 		for (const deviceId of deviceIds) {
 			this.amplitudeInstance.setDeviceId(deviceId);
-			this.amplitudeInstance.identify(new amplitude.Identify());
+			this.amplitudeInstance.identify(identifyData);
 		}
 
 		// Continue reporting with the original device ID.
