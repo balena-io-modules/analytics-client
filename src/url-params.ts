@@ -1,4 +1,4 @@
-import Cookies from 'js-cookie';
+import * as Cookies from 'js-cookie';
 import { Mixpanel } from 'mixpanel-browser';
 import {
 	COOKIES_DEVICE_IDS,
