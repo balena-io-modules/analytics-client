@@ -10,11 +10,9 @@
     "preserveConstEnums": true,
     "removeComments": true,
     "resolveJsonModule": true,
-    "sourceMap": false,
+    "sourceMap": true,
     "strictNullChecks": true,
     "moduleResolution": "node",
-    "allowSyntheticDefaultImports": true,
-    "esModuleInterop": true,
     "baseUrl": ".",
     "keyofStringsOnly": true
   },

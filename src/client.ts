@@ -1,5 +1,5 @@
-import amplitude from 'amplitude-js';
-import Cookies from 'js-cookie';
+import amplitude = require('amplitude-js');
+import * as Cookies from 'js-cookie';
 import { Mixpanel } from 'mixpanel-browser';
 import mixpanel = require('mixpanel-browser');
 import { version } from '../package.json';
