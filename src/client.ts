@@ -78,10 +78,7 @@ class DefaultClient implements Client {
 		this.checkMixpanelUsage();
 
 		this.amplitudeInstance.identify(
-			new amplitude.Identify().set(
-				USER_PROP_COMPONENT_NAME,
-				config.componentName,
-			),
+			identifyObject().set(USER_PROP_COMPONENT_NAME, config.componentName),
 		);
 		if (config.componentVersion) {
 			this.amplitudeInstance.setVersionName(config.componentVersion);
