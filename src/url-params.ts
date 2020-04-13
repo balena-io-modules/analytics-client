@@ -1,5 +1,5 @@
 import * as Cookies from 'js-cookie';
-import { Mixpanel } from 'mixpanel-browser';
+import { Client } from './client';
 import {
 	COOKIES_DEVICE_IDS,
 	COOKIES_TTL_DAYS,
@@ -15,7 +15,7 @@ const deviceIdSeparator = /\s*,\s*/;
 export class AnalyticsUrlParams {
 	private deviceIds: Set<string> = new Set();
 
-	constructor(private mixpanel?: Mixpanel) {
+	constructor(private client?: Client) {
 		const storedValue = Cookies.get(COOKIES_DEVICE_IDS);
 		this.setDeviceIds(storedValue, null);
 	}
@@ -52,22 +52,15 @@ export class AnalyticsUrlParams {
 
 		const passedDeviceId = params.get(URL_PARAM_DEVICE_ID);
 		if (passedDeviceId) {
-			const originalMixpanelId =
-				this.mixpanel != null ? this.mixpanel.get_distinct_id() : null;
+			const originalDeviceId =
+				this.client != null ? this.client.deviceId() : null;
 
 			const newCurrentDeviceId = this.setDeviceIds(
 				passedDeviceId,
-				originalMixpanelId,
+				originalDeviceId,
 			);
-
-			if (this.mixpanel != null && newCurrentDeviceId) {
-				// Switch mixpanel ID to using the passed device ID, so we can track events in one timeline branch.
-				// Previous user activity recorded with another device ID will be merged upon signup,
-				// since we store the previous ID to pass it to other sites.
-				this.mixpanel.register({
-					distinct_id: newCurrentDeviceId,
-					$device_id: newCurrentDeviceId,
-				});
+			if (this.client != null && newCurrentDeviceId != null) {
+				this.client.amplitude().setDeviceId(newCurrentDeviceId);
 			}
 
 			params.delete(URL_PARAM_DEVICE_ID);
@@ -81,12 +74,12 @@ export class AnalyticsUrlParams {
 	 * @return all anonymous device IDs that can be passed to other sites
 	 */
 	allDeviceIds() {
-		const mixpanelId = this.mixpanel ? this.mixpanel.get_distinct_id() : null;
-		if (mixpanelId == null) {
+		const currentId = this.client != null ? this.client.deviceId() : null;
+		if (currentId == null) {
 			return Array.from(this.deviceIds);
 		}
 		const res = new Set(this.deviceIds);
-		res.add(mixpanelId);
+		res.add(currentId);
 		return Array.from(res);
 	}
 

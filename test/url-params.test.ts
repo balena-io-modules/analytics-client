@@ -1,4 +1,5 @@
-import { Mixpanel } from 'mixpanel-browser';
+import { AmplitudeClient } from 'amplitude-js';
+import { Client } from '../src/client';
 import { AnalyticsUrlParams } from '../src/url-params';
 
 beforeEach(() => new AnalyticsUrlParams().clearCookies());
@@ -48,32 +49,37 @@ test('not changing current URL', () => {
 	expect(newQuery).toBeNull();
 });
 
-interface MpMock {
-	registerParams: any;
-	distinctIdRetrieved: boolean;
+interface AnalyticsMock {
+	setDeviceIdParams: string | null;
+	deviceIdRetrieved: boolean;
 }
 
-const mpMock = () =>
+const clientMock = () =>
 	({
-		registerParams: null,
-		distinctIdRetrieved: false,
+		setDeviceIdParams: null,
+		deviceIdRetrieved: false,
 
-		get_distinct_id() {
+		deviceId() {
 			this.distinctIdRetrieved = true;
 			return 'test_mp_distinct_id';
 		},
-		register(params: any) {
-			this.registerParams = params;
+		amplitude() {
+			const mock = this;
+			return {
+				setDeviceId(id: string): void {
+					mock.setDeviceIdParams = id;
+				},
+			} as AmplitudeClient;
 		},
-	} as Mixpanel & MpMock);
+	} as Client & AnalyticsMock);
 
-const mpUrlParameters = (): [AnalyticsUrlParams, MpMock] => {
-	const mp = mpMock();
+const clientUrlParameters = (): [AnalyticsUrlParams, AnalyticsMock] => {
+	const mp = clientMock();
 	return [new AnalyticsUrlParams(mp), mp];
 };
 
 test('use mixpanel distinct ID', () => {
-	const [urlParams] = mpUrlParameters();
+	const [urlParams] = clientUrlParameters();
 
 	urlParams.consumeUrlParameters('d_id=d1,d2,d3&other=value');
 	urlParams.consumeUrlParameters('d_id=d2,d3,d4&other=value');
@@ -83,13 +89,13 @@ test('use mixpanel distinct ID', () => {
 	);
 });
 
-test("don't call mixpanel in constructor", () => {
-	const [, mock] = mpUrlParameters();
-	expect(mock.distinctIdRetrieved).toBeFalsy();
+test("don't call client in constructor", () => {
+	const [, mock] = clientUrlParameters();
+	expect(mock.deviceIdRetrieved).toBeFalsy();
 });
 
-test('update mixpanel state', () => {
-	const [urlParams, mp] = mpUrlParameters();
+test('update client state', () => {
+	const [urlParams, mock] = clientUrlParameters();
 
 	urlParams.consumeUrlParameters('d_id=test_input&other=value');
 
@@ -97,25 +103,19 @@ test('update mixpanel state', () => {
 		expect(urlParams.allDeviceIds()).toContain(id),
 	);
 
-	expect(mp.registerParams).toStrictEqual({
-		distinct_id: 'test_input',
-		$device_id: 'test_input',
-	});
+	expect(mock.setDeviceIdParams).toStrictEqual('test_input');
 });
 
-test('use first device id for mixpanel', () => {
-	const [urlParams, mp] = mpUrlParameters();
+test('use first device id for analytics client', () => {
+	const [urlParams, mock] = clientUrlParameters();
 
 	urlParams.consumeUrlParameters('d_id=test_input1,d2');
 
-	expect(mp.registerParams).toStrictEqual({
-		distinct_id: 'test_input1',
-		$device_id: 'test_input1',
-	});
+	expect(mock.setDeviceIdParams).toStrictEqual('test_input1');
 });
 
-test('device IDs with mixpanel', () => {
-	const [urlParams] = mpUrlParameters();
+test('device IDs with analytics client', () => {
+	const [urlParams] = clientUrlParameters();
 	expect(urlParams.allDeviceIds()).toStrictEqual(['test_mp_distinct_id']);
 	urlParams.consumeUrlParameters('d_id=d1,d2,d3&other=value');
 	expect(urlParams.allDeviceIds()).toStrictEqual([
