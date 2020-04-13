@@ -11,6 +11,8 @@ export function createWebTracker(client: Client): WebTracker {
 	return {
 		trackPageView(name?: string): void {
 			client.track(name ? name : 'Page View', {
+				current_url: window.location.href,
+				current_url_path: window.location.pathname,
 				metrics: getPageloadMetrics(),
 			});
 		},

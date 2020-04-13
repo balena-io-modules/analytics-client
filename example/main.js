@@ -30,3 +30,4 @@ console.log('Variation:', exp.engage(client.deviceId()));
 
 const webTracker = analyticsClient.createWebTracker(client);
 webTracker.trackPageView();
+console.log('Reported page view');
