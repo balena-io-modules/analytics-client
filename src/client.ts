@@ -3,7 +3,15 @@ import * as Cookies from 'js-cookie';
 import { Mixpanel } from 'mixpanel-browser';
 import mixpanel = require('mixpanel-browser');
 import { version } from '../package.json';
-import { COOKIES_TTL_DAYS } from './config';
+import {
+	COOKIES_TTL_DAYS,
+	USER_PROP_ANALYTICS_CLIENT_VERSION,
+	USER_PROP_COMPONENT_NAME,
+} from './config';
+
+export interface Properties {
+	[key: string]: any;
+}
 
 /**
  * Client defines an interface for interaction wih balena analytics backend.
@@ -17,6 +25,9 @@ export interface Client {
 
 	/** Associate all input device IDs with a user ID. */
 	linkDevices(userId: string, deviceIds: string[]): void;
+
+	/** Track event of the defined type with specified event properties. */
+	track(eventType: string, props?: Properties): void;
 }
 
 /**
@@ -27,20 +38,26 @@ export interface Config {
 	endpoint?: string;
 	/** Project name for the analytics client. */
 	projectName: string;
+	/** Name of the component that does the reporting. */
+	componentName: string;
+	/** Component version name. */
+	componentVersion?: string;
 
 	/** Optional config for Amplitude client. */
 	amplitude?: Exclude<AmplitudeOverride, amplitude.Config>;
-	/** Optional miixpanel client instance. */
+	/** Optional mixpanel client instance. */
 	mixpanelInstance?: Mixpanel;
 }
 
 interface AmplitudeOverride {
 	apiEndpoint?: string;
 	cookieExpiration?: number;
+	includeReferrer?: boolean;
+	includeUtm?: boolean;
 }
 
 const identifyObject = () =>
-	new amplitude.Identify().set('AnalyticsClientVersion', version);
+	new amplitude.Identify().set(USER_PROP_ANALYTICS_CLIENT_VERSION, version);
 
 class DefaultClient implements Client {
 	private readonly amplitudeInstance: amplitude.AmplitudeClient;
@@ -52,12 +69,27 @@ class DefaultClient implements Client {
 		if (config.endpoint) {
 			amplConfig.apiEndpoint = `${config.endpoint}/amplitude`;
 		}
+		// TODO: Move this to the web tracker.
 		amplConfig.cookieExpiration = COOKIES_TTL_DAYS;
+		amplConfig.includeReferrer = true;
+		amplConfig.includeUtm = true;
+
 		this.amplitudeInstance.init(config.projectName, undefined, amplConfig);
 		this.checkMixpanelUsage();
+
+		this.amplitudeInstance.identify(
+			new amplitude.Identify().set(
+				USER_PROP_COMPONENT_NAME,
+				config.componentName,
+			),
+		);
+		if (config.componentVersion) {
+			this.amplitudeInstance.setVersionName(config.componentVersion);
+		}
 	}
 
 	private checkMixpanelUsage() {
+		// TODO: Move this to the web tracker.
 		const mp = this.config.mixpanelInstance;
 
 		if (mp == null) {
@@ -105,6 +137,10 @@ class DefaultClient implements Client {
 
 		// Continue reporting with the original device ID.
 		this.amplitudeInstance.setDeviceId(originalDeviceId);
+	}
+
+	track(eventType: string, props?: Properties): void {
+		this.amplitudeInstance.logEvent(eventType, props);
 	}
 }
 

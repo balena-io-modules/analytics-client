@@ -23,3 +23,6 @@ const exp = new analyticsClient.LocalExperiment('test-exp')
     .define('v1', 50)
     .define('v2', 50);
 console.log('Variation:', exp.engage(client.deviceId()));
+
+const webTracker = analyticsClient.createWebTracker(client);
+webTracker.trackPageView();

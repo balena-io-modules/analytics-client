@@ -64,6 +64,7 @@ describe('LocalExperiment', () => {
 	describe('Amplitude integration', () => {
 		const analytics = createClient({
 			projectName: 'balena-test',
+			componentName: 'test',
 		});
 		let identifyCallsCount = 0;
 		analytics.amplitude().identify = () => {
