@@ -43,6 +43,12 @@ switch (experiment.engage(client.deviceId())) {
 }
 ```
 
+Tracking a page view.
+```typescript
+import { createClient, WebTracker, createWebTracker } from 'analytics-client';
+const client = createClient({ projectName: 'my-project' });
+createWebTracker(client).trackPageView();
+```
 
 ## Using without npm packages
 

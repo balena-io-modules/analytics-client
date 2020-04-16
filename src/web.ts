@@ -4,17 +4,20 @@ import { Client } from './client';
  * WebTracker exposes an events tracking interface suitable for web apps.
  */
 export interface WebTracker {
-	trackPageView(name?: string): void;
+	trackPageView(prefix?: string, name?: string): void;
 }
 
 export function createWebTracker(client: Client): WebTracker {
 	return {
-		trackPageView(name?: string): void {
-			client.track(name ? name : 'Page View', {
-				current_url: window.location.href,
-				current_url_path: window.location.pathname,
-				metrics: getPageloadMetrics(),
-			});
+		trackPageView(prefix?: string, name?: string): void {
+			client.track(
+				`${prefix ? `[${prefix}] ` : ''}${name ? name : 'Page View'}`,
+				{
+					current_url: window.location.href,
+					current_url_path: window.location.pathname,
+					metrics: getPageloadMetrics(),
+				},
+			);
 		},
 	};
 }
