@@ -22,6 +22,9 @@ test('trackPageView', () => {
 	expect(passedData).toHaveProperty('current_url');
 	expect(passedData).toHaveProperty('current_url_path');
 
-	tracker.trackPageView('test event');
+	tracker.trackPageView('prefix');
+	expect(passedEventType).toStrictEqual('[prefix] Page View');
+
+	tracker.trackPageView('', 'test event');
 	expect(passedEventType).toStrictEqual('test event');
 });
