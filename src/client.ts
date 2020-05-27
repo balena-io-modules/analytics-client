@@ -1,6 +1,5 @@
 import amplitude = require('amplitude-js');
 import * as Cookies from 'js-cookie';
-import { Mixpanel } from 'mixpanel-browser';
 import mixpanel = require('mixpanel-browser');
 import { version } from '../package.json';
 import {
@@ -58,8 +57,6 @@ export interface Config {
 
 	/** Optional config for Amplitude client. */
 	amplitude?: Exclude<AmplitudeOverride, amplitude.Config>;
-	/** Optional mixpanel client instance. */
-	mixpanelInstance?: Mixpanel;
 }
 
 interface AmplitudeOverride {
@@ -100,26 +97,20 @@ class DefaultClient implements Client {
 
 	private checkMixpanelUsage() {
 		// TODO: Move this to the web tracker.
-		const mp = this.config.mixpanelInstance;
-
-		if (mp == null) {
-			let mixpanelDataPresent = false;
-			for (const key in Cookies.get()) {
-				if (key.startsWith('mp_' + this.config.projectName)) {
-					mixpanelDataPresent = true;
-					break;
-				}
+		let mixpanelDataPresent = false;
+		for (const key in Cookies.get()) {
+			if (key.startsWith('mp_' + this.config.projectName)) {
+				mixpanelDataPresent = true;
+				break;
 			}
+		}
 
-			if (mixpanelDataPresent) {
-				mixpanel.init(this.config.projectName, {
-					autotrack: false,
-					track_pageview: false,
-				});
-				this.amplitudeInstance.setDeviceId(mixpanel.get_distinct_id());
-			}
-		} else {
-			this.amplitudeInstance.setDeviceId(mp.get_distinct_id());
+		if (mixpanelDataPresent) {
+			mixpanel.init(this.config.projectName, {
+				autotrack: false,
+				track_pageview: false,
+			});
+			this.amplitudeInstance.setDeviceId(mixpanel.get_distinct_id());
 		}
 	}
 
