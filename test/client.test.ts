@@ -6,6 +6,13 @@ test('deviceId', () => {
 		componentName: 'test',
 	});
 	expect(client.deviceId()).toBeTruthy();
+
+	let callsCount = 0;
+	client.amplitude().regenerateDeviceId = () => {
+		callsCount++;
+	};
+	client.regenerateDeviceId();
+	expect(callsCount).toBe(1);
 });
 
 test('device linking', () => {

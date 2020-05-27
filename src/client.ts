@@ -28,6 +28,9 @@ export interface Client {
 	/** Return the ID used to identify the current device. */
 	deviceId(): string;
 
+	/** Generate a new device identifier used for reporting. */
+	regenerateDeviceId(): void;
+
 	/** Associate all input device IDs with a user ID. */
 	linkDevices(userId: string, deviceIds: string[]): void;
 
@@ -126,6 +129,10 @@ class DefaultClient implements Client {
 
 	deviceId(): string {
 		return this.amplitudeInstance.options.deviceId!!;
+	}
+
+	regenerateDeviceId() {
+		this.amplitudeInstance.regenerateDeviceId();
 	}
 
 	linkDevices(userId: string, deviceIds: string[]): void {
