@@ -51,17 +51,25 @@ test('user properties', () => {
 		endpoint: `some.host`,
 		componentName: 'test',
 	});
+
 	let callCount = 0;
+	let expectedProps: any = null;
 	client.amplitude().identify = obj => {
 		callCount++;
-		expect((obj as any).userPropertiesOperations).toStrictEqual({
-			$set: { p1: 'v1', p2: 'v2' },
-			$setOnce: { p3: 'v3', p4: 'v4' },
-		});
+		expect((obj as any).userPropertiesOperations).toStrictEqual(expectedProps);
+	};
+
+	expectedProps = {
+		$set: { p1: 'v1', p2: 'v2' },
+		$setOnce: { p3: 'v3', p4: 'v4' },
 	};
 	client.setUserProperties({
 		set: { p1: 'v1', p2: 'v2' },
 		setOnce: { p3: 'v3', p4: 'v4' },
 	});
 	expect(callCount).toBe(1);
+
+	expectedProps = {};
+	client.setUserProperties({});
+	expect(callCount).toBe(2);
 });
