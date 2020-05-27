@@ -13,6 +13,11 @@ export interface Properties {
 	[key: string]: any;
 }
 
+export interface UserProperties {
+	set?: Properties;
+	setOnce?: Properties;
+}
+
 /**
  * Client defines an interface for interaction wih balena analytics backend.
  */
@@ -28,6 +33,11 @@ export interface Client {
 
 	/** Track event of the defined type with specified event properties. */
 	track(eventType: string, props?: Properties): void;
+
+	/** Set current user ID. */
+	setUserId(userId: string): void;
+
+	setUserProperties(props: UserProperties): void;
 }
 
 /**
@@ -120,7 +130,7 @@ class DefaultClient implements Client {
 
 	linkDevices(userId: string, deviceIds: string[]): void {
 		const originalDeviceId = this.deviceId();
-		this.amplitudeInstance.setUserId(userId);
+		this.setUserId(userId);
 
 		const identifyData = identifyObject();
 
@@ -138,6 +148,26 @@ class DefaultClient implements Client {
 
 	track(eventType: string, props?: Properties): void {
 		this.amplitudeInstance.logEvent(eventType, props);
+	}
+
+	setUserId(userId: string) {
+		this.amplitudeInstance.setUserId(userId);
+	}
+
+	setUserProperties(props: UserProperties) {
+		const identify = new amplitude.Identify();
+		for (const key in props.set) {
+			if (props.set.hasOwnProperty(key)) {
+				identify.set(key, props.set[key]);
+			}
+		}
+		for (const key in props.setOnce) {
+			if (props.setOnce.hasOwnProperty(key)) {
+				identify.setOnce(key, props.setOnce[key]);
+			}
+		}
+
+		this.amplitudeInstance.identify(identify);
 	}
 }
 
