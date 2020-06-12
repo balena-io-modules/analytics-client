@@ -48,6 +48,16 @@ export class LocalExperiment<Variation extends string>
 			.join(', ');
 	}
 
+	private identify(result: Variation) {
+		if (this.analytics != null) {
+			this.analytics
+				.amplitude()
+				.identify(
+					new Identify().append('Experiments', `${this.name}_${result}`),
+				);
+		}
+	}
+
 	define(
 		variation: Variation,
 		targetPercent: number,
@@ -90,6 +100,7 @@ export class LocalExperiment<Variation extends string>
 		const key = `${LOCAL_STORAGE_EXPERIMENTS_PREFIX}${this.name}_${deviceId}`;
 		const value = window.localStorage.getItem(key);
 		if (value != null) {
+			this.identify(value as Variation);
 			return value as Variation;
 		}
 
@@ -112,13 +123,7 @@ export class LocalExperiment<Variation extends string>
 		}
 
 		window.localStorage.setItem(key, result);
-		if (this.analytics != null) {
-			this.analytics
-				.amplitude()
-				.identify(
-					new Identify().append('Experiments', `${this.name}_${result}`),
-				);
-		}
+		this.identify(result);
 
 		return result;
 	}
