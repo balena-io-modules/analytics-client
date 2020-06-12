@@ -80,6 +80,9 @@ describe('LocalExperiment', () => {
 		it('sets user property', () => {
 			exp.engage('test-device-1');
 			expect(identifyCallsCount).toStrictEqual(1);
+			exp.engage('test-device-1');
+			// identify is called on every engage call.
+			expect(identifyCallsCount).toStrictEqual(2);
 		});
 	});
 });
