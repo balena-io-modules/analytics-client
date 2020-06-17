@@ -48,12 +48,27 @@ export class LocalExperiment<Variation extends string>
 			.join(', ');
 	}
 
+	private static amplitudePreInsert(
+		identify: Identify,
+		name: string,
+		value: string,
+	): Identify {
+		// XXX: $preInsert is documented but not exposed in the JS SDK.
+		// https://help.amplitude.com/hc/en-us/articles/205406617#keys-for-the-identification-argument
+		(identify as any)._addOperation('$preInsert', name, value);
+		return identify;
+	}
+
 	private identify(result: Variation) {
 		if (this.analytics != null) {
 			this.analytics
 				.amplitude()
 				.identify(
-					new Identify().append('Experiments', `${this.name}_${result}`),
+					LocalExperiment.amplitudePreInsert(
+						new Identify(),
+						'Experiments',
+						`${this.name}_${result}`,
+					),
 				);
 		}
 	}
