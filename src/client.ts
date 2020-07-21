@@ -169,6 +169,46 @@ class DefaultClient implements Client {
 	}
 }
 
+/** NoopClient does nothing when  */
+class NoopClient implements Client {
+	constructor(private readonly logEvents: boolean) {}
+
+	private log(...args: any[]) {
+		if (this.logEvents) {
+			console.log('Analytics client:', ...args);
+		}
+	}
+
+	amplitude(): amplitude.AmplitudeClient {
+		throw new Error('Not supported');
+	}
+
+	deviceId() {
+		return '';
+	}
+
+	linkDevices() {
+		/* nothing */
+	}
+	regenerateDeviceId() {
+		/* nothing */
+	}
+	setUserId(): void {
+		/* nothing */
+	}
+	setUserProperties() {
+		/* nothing */
+	}
+
+	track(eventType: string, props?: Properties): void {
+		this.log(`track [${eventType}]`, props);
+	}
+}
+
 export function createClient(config: Config): Client {
 	return new DefaultClient(config);
+}
+
+export function createNoopClient(logEvents: boolean = false): Client {
+	return new NoopClient(logEvents);
 }
