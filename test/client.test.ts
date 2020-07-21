@@ -1,4 +1,4 @@
-import { createClient } from '../src/client';
+import { createClient, createNoopClient } from '../src/client';
 
 test('deviceId', () => {
 	const client = createClient({
@@ -72,4 +72,10 @@ test('user properties', () => {
 	expectedProps = {};
 	client.setUserProperties({});
 	expect(callCount).toBe(2);
+});
+
+test('noop client', () => {
+	const client = createNoopClient(true);
+	client.setUserId('test');
+	client.track('test event', { a: 42 });
 });
