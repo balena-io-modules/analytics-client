@@ -64,7 +64,7 @@ export class AnalyticsUrlParams {
 				originalDeviceId,
 			);
 			if (this.client != null && newCurrentDeviceId != null) {
-				this.client.amplitude().setDeviceId(newCurrentDeviceId);
+				this.client.setDeviceId(newCurrentDeviceId);
 			}
 
 			params.delete(URL_PARAM_DEVICE_ID);
@@ -72,6 +72,17 @@ export class AnalyticsUrlParams {
 		} else {
 			return null;
 		}
+	}
+
+	setClient(client: Client) {
+		if (this.client) {
+			throw new Error('Client is already set');
+		}
+		const newDeviceId = this.setDeviceIds(null, client.deviceId());
+		if (newDeviceId != null) {
+			client.setDeviceId(newDeviceId);
+		}
+		this.client = client;
 	}
 
 	/**

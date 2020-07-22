@@ -1,5 +1,4 @@
-import { AmplitudeClient } from 'amplitude-js';
-import { Client } from '../src/client';
+import { Client, createNoopClient } from '../src/client';
 import { AnalyticsUrlParams } from '../src/url-params';
 
 beforeEach(() => new AnalyticsUrlParams().clearCookies());
@@ -60,16 +59,11 @@ const clientMock = () =>
 		deviceIdRetrieved: false,
 
 		deviceId() {
-			this.distinctIdRetrieved = true;
-			return 'test_mp_distinct_id';
+			this.deviceIdRetrieved = true;
+			return 'test_device_id';
 		},
-		amplitude() {
-			const mock = this;
-			return {
-				setDeviceId(id: string): void {
-					mock.setDeviceIdParams = id;
-				},
-			} as AmplitudeClient;
+		setDeviceId(deviceId: string) {
+			this.setDeviceIdParams = deviceId;
 		},
 	} as Client & AnalyticsMock);
 
@@ -84,7 +78,7 @@ test('use mixpanel distinct ID', () => {
 	urlParams.consumeUrlParameters('d_id=d1,d2,d3&other=value');
 	urlParams.consumeUrlParameters('d_id=d2,d3,d4&other=value');
 
-	['d1', 'd2', 'd3', 'd4', 'test_mp_distinct_id'].forEach(id =>
+	['d1', 'd2', 'd3', 'd4', 'test_device_id'].forEach(id =>
 		expect(urlParams.allDeviceIds()).toContain(id),
 	);
 });
@@ -99,7 +93,7 @@ test('update client state', () => {
 
 	urlParams.consumeUrlParameters('d_id=test_input&other=value');
 
-	['test_input', 'test_mp_distinct_id'].forEach(id =>
+	['test_input', 'test_device_id'].forEach(id =>
 		expect(urlParams.allDeviceIds()).toContain(id),
 	);
 
@@ -116,13 +110,13 @@ test('use first device id for analytics client', () => {
 
 test('device IDs with analytics client', () => {
 	const [urlParams] = clientUrlParameters();
-	expect(urlParams.allDeviceIds()).toStrictEqual(['test_mp_distinct_id']);
+	expect(urlParams.allDeviceIds()).toStrictEqual(['test_device_id']);
 	urlParams.consumeUrlParameters('d_id=d1,d2,d3&other=value');
 	expect(urlParams.allDeviceIds()).toStrictEqual([
 		'd1',
 		'd2',
 		'd3',
-		'test_mp_distinct_id',
+		'test_device_id',
 	]);
 });
 
@@ -153,4 +147,23 @@ test('opt out parameter', () => {
 	expect(urlParams.isOptOutRequested()).toBeFalsy();
 	urlParams.consumeUrlParameters('');
 	expect(urlParams.isOptOutRequested()).toBeFalsy();
+});
+
+test('set noop client', () => {
+	const urlParams = new AnalyticsUrlParams();
+	urlParams.consumeUrlParameters('optOutAnalytics=true');
+	expect(urlParams.isOptOutRequested()).toBeTruthy();
+	urlParams.setClient(createNoopClient());
+});
+
+test('set default client', () => {
+	const urlParams = new AnalyticsUrlParams();
+	urlParams.consumeUrlParameters('optOutAnalytics=false');
+	expect(urlParams.isOptOutRequested()).toBeFalsy();
+
+	const client = clientMock();
+	const initialDeviceId = client.deviceId();
+	urlParams.setClient(client);
+	expect(client.deviceIdRetrieved).toBeTruthy();
+	expect(client.setDeviceIdParams).toStrictEqual(initialDeviceId);
 });

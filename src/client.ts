@@ -36,6 +36,9 @@ export interface Client {
 	/** Track event of the defined type with specified event properties. */
 	track(eventType: string, props?: Properties): void;
 
+	/** Set current device ID. */
+	setDeviceId(deviceId: string): void;
+
 	/** Set current user ID. */
 	setUserId(userId: string): void;
 
@@ -122,6 +125,10 @@ class DefaultClient implements Client {
 		return this.amplitudeInstance.options.deviceId!!;
 	}
 
+	setDeviceId(deviceId: string) {
+		this.amplitudeInstance.setDeviceId(deviceId);
+	}
+
 	regenerateDeviceId() {
 		this.amplitudeInstance.regenerateDeviceId();
 	}
@@ -191,6 +198,9 @@ class NoopClient implements Client {
 		/* nothing */
 	}
 	regenerateDeviceId() {
+		/* nothing */
+	}
+	setDeviceId(): void {
 		/* nothing */
 	}
 	setUserId(): void {
