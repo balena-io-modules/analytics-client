@@ -142,3 +142,15 @@ test('encodes URI component', () => {
 		'd_id=%25%25%24!!',
 	);
 });
+
+test('opt out parameter', () => {
+	const urlParams = new AnalyticsUrlParams();
+	urlParams.consumeUrlParameters('d_id=42&optOutAnalytics=true');
+	expect(urlParams.isOptOutRequested()).toBeTruthy();
+	urlParams.consumeUrlParameters('d_id=42&optOutAnalytics=false');
+	expect(urlParams.isOptOutRequested()).toBeFalsy();
+	urlParams.consumeUrlParameters('d_id=42');
+	expect(urlParams.isOptOutRequested()).toBeFalsy();
+	urlParams.consumeUrlParameters('');
+	expect(urlParams.isOptOutRequested()).toBeFalsy();
+});
