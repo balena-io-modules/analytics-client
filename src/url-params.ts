@@ -4,6 +4,7 @@ import {
 	COOKIES_DEVICE_IDS,
 	COOKIES_TTL_DAYS,
 	URL_PARAM_DEVICE_ID,
+	URL_PARAM_OPT_OUT_REQUEST,
 } from './config';
 
 const deviceIdSeparator = /\s*,\s*/;
@@ -14,6 +15,7 @@ const deviceIdSeparator = /\s*,\s*/;
  */
 export class AnalyticsUrlParams {
 	private deviceIds: Set<string> = new Set();
+	private optOutRequsted: boolean = false;
 
 	constructor(private client?: Client) {
 		const storedValue = Cookies.get(COOKIES_DEVICE_IDS);
@@ -50,6 +52,8 @@ export class AnalyticsUrlParams {
 	consumeUrlParameters(queryString: string): string | null {
 		const params = new URLSearchParams(queryString);
 
+		this.optOutRequsted = params.get(URL_PARAM_OPT_OUT_REQUEST) === 'true';
+
 		const passedDeviceId = params.get(URL_PARAM_DEVICE_ID);
 		if (passedDeviceId) {
 			const originalDeviceId =
@@ -60,7 +64,7 @@ export class AnalyticsUrlParams {
 				originalDeviceId,
 			);
 			if (this.client != null && newCurrentDeviceId != null) {
-				this.client.amplitude().setDeviceId(newCurrentDeviceId);
+				this.client.setDeviceId(newCurrentDeviceId);
 			}
 
 			params.delete(URL_PARAM_DEVICE_ID);
@@ -68,6 +72,17 @@ export class AnalyticsUrlParams {
 		} else {
 			return null;
 		}
+	}
+
+	setClient(client: Client) {
+		if (this.client) {
+			throw new Error('Client is already set');
+		}
+		const newDeviceId = this.setDeviceIds(null, client.deviceId());
+		if (newDeviceId != null) {
+			client.setDeviceId(newDeviceId);
+		}
+		this.client = client;
 	}
 
 	/**
@@ -92,5 +107,13 @@ export class AnalyticsUrlParams {
 			return '';
 		}
 		return `${URL_PARAM_DEVICE_ID}=${encodeURIComponent(ids.join(','))}`;
+	}
+
+	/**
+	 * Use after consumeUrlParameters call.
+	 * @return whether opt out from user behaviour tracking has been requested with a URL parameter
+	 */
+	isOptOutRequested(): boolean {
+		return this.optOutRequsted;
 	}
 }
