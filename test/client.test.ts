@@ -24,16 +24,28 @@ test('device linking', () => {
 
 	let identifyCallsCount = 0;
 	let setUserIdCallsCount = 0;
+	let lastDeviceId = '';
 	client.amplitude().identify = () => {
 		identifyCallsCount++;
 	};
 	client.amplitude().setUserId = () => {
 		setUserIdCallsCount++;
 	};
+	const realSetDeviceId = client.amplitude().setDeviceId;
+	client.amplitude().setDeviceId = deviceId => {
+		lastDeviceId = deviceId;
+		realSetDeviceId.call(client.amplitude(), deviceId);
+	};
 
 	client.linkDevices('test-user', ['d1', 'd2']);
 	expect(identifyCallsCount).toBe(3); // Number of devices + original device ID.
 	expect(setUserIdCallsCount).toBe(1);
+
+	// Ensure we don't set device ID to a value equal to the user ID.
+	client.amplitude().setDeviceId('test-user');
+	expect(client.deviceId()).toStrictEqual('test-user');
+	client.linkDevices('test-user', ['d1', 'test-user']);
+	expect(lastDeviceId).toStrictEqual('d1');
 });
 
 test('amplitude config', () => {
