@@ -134,7 +134,10 @@ class DefaultClient implements Client {
 	}
 
 	linkDevices(userId: string, deviceIds: string[]): void {
-		const originalDeviceId = this.deviceId();
+		let finalDeviceId: string | null = this.deviceId();
+		if (finalDeviceId === userId) {
+			finalDeviceId = null;
+		}
 		this.setUserId(userId);
 
 		const identifyData = identifyObject();
@@ -143,12 +146,19 @@ class DefaultClient implements Client {
 		this.amplitudeInstance.identify(identifyData);
 
 		for (const deviceId of deviceIds) {
+			if (finalDeviceId == null && deviceId !== userId) {
+				finalDeviceId = deviceId;
+			}
 			this.amplitudeInstance.setDeviceId(deviceId);
 			this.amplitudeInstance.identify(identifyData);
 		}
 
-		// Continue reporting with the original device ID.
-		this.amplitudeInstance.setDeviceId(originalDeviceId);
+		// Continue reporting with the original device ID (if it's not equal to the user ID).
+		if (finalDeviceId != null) {
+			this.amplitudeInstance.setDeviceId(finalDeviceId);
+		} else {
+			this.amplitudeInstance.regenerateDeviceId();
+		}
 	}
 
 	track(eventType: string, props?: Properties): void {
