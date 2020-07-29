@@ -67,6 +67,7 @@ interface AmplitudeOverride {
 	cookieExpiration?: number;
 	includeReferrer?: boolean;
 	includeUtm?: boolean;
+	sameSiteCookie?: 'Lax' | 'Strict' | 'None';
 }
 
 const identifyObject = () =>
@@ -86,6 +87,7 @@ class DefaultClient implements Client {
 		amplConfig.cookieExpiration = COOKIES_TTL_DAYS;
 		amplConfig.includeReferrer = true;
 		amplConfig.includeUtm = true;
+		amplConfig.sameSiteCookie = 'Lax';
 
 		this.amplitudeInstance.init(config.projectName, undefined, amplConfig);
 		this.checkMixpanelUsage();
