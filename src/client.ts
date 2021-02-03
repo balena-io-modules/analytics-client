@@ -27,6 +27,9 @@ export interface Client {
 	/** Return the ID used to identify the current device. */
 	deviceId(): string;
 
+	/** Return the ID used to identify the current session. */
+	sessionId(): number;
+
 	/** Generate a new device identifier used for reporting. */
 	regenerateDeviceId(): void;
 
@@ -38,6 +41,9 @@ export interface Client {
 
 	/** Set current device ID. */
 	setDeviceId(deviceId: string): void;
+
+	/** Set current session ID. */
+	setSessionId(sessionId: number): void;
 
 	/** Set current user ID. */
 	setUserId(userId: string): void;
@@ -134,8 +140,16 @@ class DefaultClient implements Client {
 		return this.amplitudeInstance.options.deviceId!!;
 	}
 
+	sessionId(): number {
+		return this.amplitudeInstance.getSessionId();
+	}
+
 	setDeviceId(deviceId: string) {
 		this.amplitudeInstance.setDeviceId(deviceId);
+	}
+
+	setSessionId(sessionId: number) {
+		this.amplitudeInstance.setSessionId(sessionId);
 	}
 
 	regenerateDeviceId() {
@@ -213,6 +227,10 @@ class NoopClient implements Client {
 		return '';
 	}
 
+	sessionId() {
+		return -1;
+	}
+
 	linkDevices() {
 		/* nothing */
 	}
@@ -220,6 +238,9 @@ class NoopClient implements Client {
 		/* nothing */
 	}
 	setDeviceId(): void {
+		/* nothing */
+	}
+	setSessionId(): void {
 		/* nothing */
 	}
 	setUserId(): void {
