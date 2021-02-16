@@ -21,6 +21,12 @@ describe('WebTracker', () => {
 		expect(passedData).toHaveProperty('current_url_path');
 	};
 
+	const ensureNavigationClickProperties = () => {
+		expect(passedData).toHaveProperty('current_url');
+		expect(passedData).toHaveProperty('current_url_path');
+		expect(passedData).toHaveProperty('href');
+	};
+
 	describe('With prefix', () => {
 		const tracker = createWebTracker(client, 'prefix');
 
@@ -40,6 +46,17 @@ describe('WebTracker', () => {
 			tracker.trackPageView('test event');
 			expect(passedEventType).toStrictEqual('[prefix] test event');
 			ensurePageViewProperties();
+		});
+
+		it('tracks navigation click', () => {
+			tracker.trackNavigationClick('https://balena.io/docs');
+			expect(passedEventType).toStrictEqual('[prefix] Navigation Click');
+			ensureNavigationClickProperties();
+
+			tracker.trackNavigationClick('https://balena.io/docs', { p: 0 });
+			expect(passedEventType).toStrictEqual('[prefix] Navigation Click');
+			ensureNavigationClickProperties();
+			expect(passedData.p).toStrictEqual(0);
 		});
 	});
 

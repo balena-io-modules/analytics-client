@@ -5,6 +5,7 @@ import { Client, Properties } from './client';
  */
 export interface WebTracker {
 	track(name: string, props?: Properties): void;
+	trackNavigationClick(href: string, props?: Properties): void;
 	trackPageView(name?: string): void;
 }
 
@@ -12,6 +13,15 @@ export function createWebTracker(client: Client, prefix?: string): WebTracker {
 	return {
 		track(name: string, props?: Properties) {
 			client.track(`${prefix ? `[${prefix}] ` : ''}${name}`, props);
+		},
+
+		trackNavigationClick(href: string, props?: Properties) {
+			this.track('Navigation Click', {
+				...props,
+				href,
+				current_url: window.location.href,
+				current_url_path: window.location.pathname,
+			});
 		},
 
 		trackPageView(name?: string) {
