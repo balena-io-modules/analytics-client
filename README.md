@@ -11,19 +11,42 @@ Currently the only final destination is Amplitude. We have plans to support more
 npm install --save analytics-client
 ```
 
-## Usage
 
-Tracking a page view. The following reports an event named `[EFP] Page View` with default properties.
+## Client Initialization
+The first thing to do is create and initialize an `analytics client`.
+
+Since most of balena products are maintained on different components/repos (ie Hub, Marketing Site, Cloud, etc) we need to make sure that
+when someone navigates between components we can keep identifying it as a same id. 
+
+So to achieve that we will need to:
 
 ```typescript
-import { createClient, createWebTracker } from 'analytics-client';
+import { AnalyticsUrlParams, createClient} from 'analytics-client';
 
+const urlParamsHandler = new AnalyticsUrlParams();
+
+// This will handle any passed device id (d_id) param on the URL if it exists, save it on a cookie and return a "clean" query string without the d_id param
+const newQuery = urlParamsHandler.consumeUrlParameters(window.location.search) ?? null;
+
+// Then if there was any passed device id we can obtain them like this.
+// passedDeviceId is either the first d_id param passed on the URL or null
+const passedDeviceId = urlParamsHandler.getPassedDeviceId()
+
+// Now that we checked for any passed device_id we can proceed with creating and initializing the client
 const client = createClient({
     endpoint: 'data.balena-cloud.com', // use 'data.balena-staging.com' for testing
     projectName: 'balena-project', // unique identifier that analytics-backend expects
     componentName: 'etcher-featured-project', // short unique name of component
     componentVersion: require('./package.json').version, // (optional) automated version reporting
-});
+    deviceId: passedDeviceId,
+})
+```
+
+## Usage
+Tracking a page view. The following reports an event named `[EFP] Page View` with default properties.
+
+```typescript
+import {createWebTracker } from 'analytics-client';
 
 createWebTracker(client, 'EFP') // 2nd parameter defines the prefix of event names
     .trackPageView();

@@ -60,6 +60,9 @@ export interface Config {
 
 	/** Optional config for Amplitude client. */
 	amplitude?: Exclude<AmplitudeOverride, amplitude.Config>;
+
+	/** Optional device_id for Amplitude client. */
+	deviceId?: string;
 }
 
 interface AmplitudeOverride {
@@ -88,6 +91,10 @@ class DefaultClient implements Client {
 		amplConfig.includeReferrer = true;
 		amplConfig.includeUtm = true;
 		amplConfig.sameSiteCookie = 'Lax';
+
+		if (config.deviceId) {
+			amplConfig.deviceId = config.deviceId;
+		}
 
 		this.amplitudeInstance.init(config.projectName, undefined, amplConfig);
 		this.checkMixpanelUsage();

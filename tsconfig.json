@@ -14,7 +14,7 @@
     "strictNullChecks": true,
     "moduleResolution": "node",
     "baseUrl": ".",
-    "keyofStringsOnly": true
+    "keyofStringsOnly": false
   },
   "include": [
     "index.ts",
