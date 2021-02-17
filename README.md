@@ -16,7 +16,7 @@ npm install --save analytics-client
 The first thing to do is create and initialize an `analytics client`.
 
 Since most of balena products are maintained on different components/repos (ie Hub, Marketing Site, Cloud, etc) we need to make sure that
-when someone navigates between components we can keep identifying it as a same id. 
+when someone navigates between components we can keep identifying it as a same id.
 
 So to achieve that we will need to:
 
@@ -43,13 +43,14 @@ const client = createClient({
 ```
 
 ## Usage
-Tracking a page view. The following reports an event named `[EFP] Page View` with default properties.
+Tracking a page view and a navigation click. The following reports an event named `[EFP] Page View` and another event with `[EFP] Navigation Click` with default properties.
 
 ```typescript
 import {createWebTracker } from 'analytics-client';
 
-createWebTracker(client, 'EFP') // 2nd parameter defines the prefix of event names
-    .trackPageView();
+const webTracker = createWebTracker(client, 'EFP'); // 2nd parameter defines the prefix of event names
+webTracker.trackPageView();
+webTracker.trackNavigationClick('https://hub.balena.io'); // User clicks on a button to navigate to the Hub
 ```
 
 Here is an example how a product like CLI would identify a user and report a login event (`[CLI] Login`) with certain event properties related to the login action.
