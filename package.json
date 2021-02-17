@@ -1,6 +1,6 @@
 {
   "name": "analytics-client",
-  "version": "0.12.1",
+  "version": "1.0.0",
   "description": "Convenient builders to compose analytics tools",
   "repository": {
     "type": "git",
