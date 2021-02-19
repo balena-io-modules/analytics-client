@@ -15,7 +15,7 @@ const deviceIdSeparator = /\s*,\s*/;
  */
 export class AnalyticsUrlParams {
 	private deviceIds: Set<string> = new Set();
-	private passedDeviceId: string | null;
+	private passedDeviceId: string | undefined;
 	private optOutRequsted: boolean = false;
 
 	constructor(private client?: Client) {
@@ -28,7 +28,9 @@ export class AnalyticsUrlParams {
 		currentDeviceId: string | null,
 	) {
 		const list = inputIdString ? inputIdString.split(deviceIdSeparator) : [];
-		this.passedDeviceId = list.length > 0 ? list[0] : null;
+		if (list.length > 0) {
+			this.passedDeviceId = list[0]
+		}
 
 		if (currentDeviceId) {
 			list.push(currentDeviceId);
