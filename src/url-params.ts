@@ -29,7 +29,7 @@ export class AnalyticsUrlParams {
 	) {
 		const list = inputIdString ? inputIdString.split(deviceIdSeparator) : [];
 		if (list.length > 0) {
-			this.passedDeviceId = list[0]
+			this.passedDeviceId = list[0];
 		}
 
 		if (currentDeviceId) {
