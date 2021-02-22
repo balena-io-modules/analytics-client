@@ -106,7 +106,7 @@ export class AnalyticsUrlParams {
 	/**
 	 * @return an array of passed Device Ids via the URL param if there was any
 	 */
-	getPassedDeviceId() {
+	getPassedDeviceId(): string | undefined {
 		return this.passedDeviceId;
 	}
 
