@@ -2,7 +2,6 @@ import * as Cookies from 'js-cookie';
 import { Client } from './client';
 import {
 	COOKIES_DEVICE_IDS,
-	COOKIES_SESSION_ID,
 	COOKIES_TTL_DAYS,
 	URL_PARAM_DEVICE_ID,
 	URL_PARAM_OPT_OUT_REQUEST,
@@ -24,9 +23,6 @@ export class AnalyticsUrlParams {
 	constructor(private client?: Client) {
 		const storedDeviceIdValue = Cookies.get(COOKIES_DEVICE_IDS);
 		this.setDeviceIds(storedDeviceIdValue, null);
-
-		const storedSessionIdValue = Cookies.get(COOKIES_SESSION_ID);
-		this.setSessionId(storedSessionIdValue);
 	}
 
 	private setDeviceIds(
@@ -52,17 +48,12 @@ export class AnalyticsUrlParams {
 	private setSessionId(storedValue: string | null | undefined) {
 		if (storedValue) {
 			this.sessionId = Number(storedValue);
-			Cookies.set(COOKIES_SESSION_ID, storedValue, {
-				expires: COOKIES_TTL_DAYS,
-				path: '/',
-			});
 		}
 		return this.sessionId;
 	}
 
 	clearCookies() {
 		Cookies.remove(COOKIES_DEVICE_IDS);
-		Cookies.remove(COOKIES_SESSION_ID);
 	}
 
 	/**

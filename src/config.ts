@@ -8,7 +8,6 @@ export const URL_PARAM_SESSION_ID = 's_id';
 export const URL_PARAM_OPT_OUT_REQUEST = 'optOutAnalytics';
 
 export const COOKIES_DEVICE_IDS = '__analytics_dids';
-export const COOKIES_SESSION_ID = '__analytics_sid';
 export const COOKIES_TTL_DAYS = 300;
 
 export const USER_PROP_COMPONENT_NAME = 'ComponentName';
