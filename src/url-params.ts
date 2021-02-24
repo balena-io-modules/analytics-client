@@ -16,7 +16,7 @@ const deviceIdSeparator = /\s*,\s*/;
 export class AnalyticsUrlParams {
 	private deviceIds: Set<string> = new Set();
 	private passedDeviceId: string | undefined;
-	private optOutRequsted: boolean = false;
+	private optOutRequested: boolean = false;
 
 	constructor(private client?: Client) {
 		const storedValue = Cookies.get(COOKIES_DEVICE_IDS);
@@ -57,7 +57,7 @@ export class AnalyticsUrlParams {
 	consumeUrlParameters(queryString: string): string | null {
 		const params = new URLSearchParams(queryString);
 
-		this.optOutRequsted = params.get(URL_PARAM_OPT_OUT_REQUEST) === 'true';
+		this.optOutRequested = params.get(URL_PARAM_OPT_OUT_REQUEST) === 'true';
 
 		const passedDeviceId = params.get(URL_PARAM_DEVICE_ID);
 		if (passedDeviceId) {
@@ -126,6 +126,6 @@ export class AnalyticsUrlParams {
 	 * @return whether opt out from user behaviour tracking has been requested with a URL parameter
 	 */
 	isOptOutRequested(): boolean {
-		return this.optOutRequsted;
+		return this.optOutRequested;
 	}
 }
