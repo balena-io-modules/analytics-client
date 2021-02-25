@@ -5,6 +5,7 @@ import {
 	COOKIES_TTL_DAYS,
 	URL_PARAM_DEVICE_ID,
 	URL_PARAM_OPT_OUT_REQUEST,
+	URL_PARAM_SESSION_ID,
 } from './config';
 
 const deviceIdSeparator = /\s*,\s*/;
@@ -16,11 +17,12 @@ const deviceIdSeparator = /\s*,\s*/;
 export class AnalyticsUrlParams {
 	private deviceIds: Set<string> = new Set();
 	private passedDeviceId: string | undefined;
+	private sessionId: number | undefined;
 	private optOutRequested: boolean = false;
 
 	constructor(private client?: Client) {
-		const storedValue = Cookies.get(COOKIES_DEVICE_IDS);
-		this.setDeviceIds(storedValue, null);
+		const storedDeviceIdValue = Cookies.get(COOKIES_DEVICE_IDS);
+		this.setDeviceIds(storedDeviceIdValue, null);
 	}
 
 	private setDeviceIds(
@@ -43,12 +45,19 @@ export class AnalyticsUrlParams {
 		return list.length > 0 ? list[0] : null;
 	}
 
+	private setSessionId(storedValue: string | null | undefined) {
+		if (storedValue) {
+			this.sessionId = Number(storedValue);
+		}
+		return this.sessionId;
+	}
+
 	clearCookies() {
 		Cookies.remove(COOKIES_DEVICE_IDS);
 	}
 
 	/**
-	 * Analyzes the query string and stores the anonymous device ID if it's there.
+	 * Analyzes the query string and stores the anonymous device or session ID if it's there.
 	 * Returns null if the current URL query string should not be modified after consuming the data.
 	 *
 	 * @param queryString URL query string to process
@@ -73,10 +82,21 @@ export class AnalyticsUrlParams {
 			}
 
 			params.delete(URL_PARAM_DEVICE_ID);
-			return params.toString();
-		} else {
-			return null;
 		}
+
+		const passedSessionId = params.get(URL_PARAM_SESSION_ID);
+		if (passedSessionId) {
+			const newCurrentSessionId = this.setSessionId(passedSessionId);
+
+			if (this.client != null && newCurrentSessionId != null) {
+				this.client.setSessionId(newCurrentSessionId);
+			}
+
+			params.delete(URL_PARAM_SESSION_ID);
+		}
+
+		const remainingQueryString = params.toString();
+		return queryString === remainingQueryString ? null : remainingQueryString;
 	}
 
 	setClient(client: Client) {
@@ -87,6 +107,7 @@ export class AnalyticsUrlParams {
 		if (newDeviceId != null) {
 			client.setDeviceId(newDeviceId);
 		}
+		this.sessionId = client.sessionId();
 		this.client = client;
 	}
 
@@ -111,7 +132,14 @@ export class AnalyticsUrlParams {
 	}
 
 	/**
-	 * @return part of a query parameter string that can be appended to URLs
+	 * @return session ID that can be passed to other sites
+	 */
+	getSessionId() {
+		return this.client ? this.client.sessionId() : this.sessionId;
+	}
+
+	/**
+	 * @return part of the device ID query parameter string that can be appended to URLs
 	 */
 	getDeviceIdsQueryString(): string {
 		const ids = this.allDeviceIds();
@@ -119,6 +147,26 @@ export class AnalyticsUrlParams {
 			return '';
 		}
 		return `${URL_PARAM_DEVICE_ID}=${encodeURIComponent(ids.join(','))}`;
+	}
+
+	/**
+	 * @return part of the session ID query parameter string that can be appended to URLs
+	 */
+	getSessionIdQueryString(): string {
+		const id = this.getSessionId();
+		if (id == null) {
+			return '';
+		}
+		return `${URL_PARAM_SESSION_ID}=${id}`;
+	}
+
+	/**
+	 * @return full query parameter string that can be appended to URLs
+	 */
+	getQueryString(): string {
+		return [this.getDeviceIdsQueryString(), this.getSessionIdQueryString()]
+			.filter(x => x)
+			.join('&');
 	}
 
 	/**
