@@ -112,6 +112,15 @@ export class AnalyticsUrlParams {
 	}
 
 	/**
+	 *
+	 * @param client
+	 * Sets the class client value to whatever client object is passed on the argument.
+	 */
+	declareClient(client: Client) {
+		this.client = client;
+	}
+
+	/**
 	 * @return all anonymous device IDs that can be passed to other sites
 	 */
 	allDeviceIds() {
