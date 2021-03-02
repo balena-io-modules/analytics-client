@@ -41,7 +41,7 @@ const client = createClient({
     deviceId: passedDeviceId,
 })
 
-//And at last, we pass this newly created client to the AnalyticsUrlParams since its needed for some functionalities
+// A newly created client is passed to the `AnalyticsUrlParams` to make it fully functional.
 urlParamsHandler.declareClient(client);
 ```
 
