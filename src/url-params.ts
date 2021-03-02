@@ -163,10 +163,37 @@ export class AnalyticsUrlParams {
 	/**
 	 * @return full query parameter string that can be appended to URLs
 	 */
-	getQueryString(): string {
-		return [this.getDeviceIdsQueryString(), this.getSessionIdQueryString()]
-			.filter(x => x)
-			.join('&');
+	getQueryString(destinationUrl?: URL, currentUrl?: URL): string {
+		// this regex is based on the assumption that we wont be using TLDs longer than 3 characters. If we do, it will break
+		// the logic and take that longer TLD as the main domain, for example hub.balena.edge.io -> edge.io
+		const regex = /([a-zA-Z0-9-]+)(\.[a-zA-Z]{2,3})?(\.[a-zA-Z]+$)/g;
+
+		let actualDomainMatch;
+		if (currentUrl) {
+			actualDomainMatch = currentUrl.hostname.match(regex);
+		} else if (typeof window !== 'undefined') {
+			actualDomainMatch = window.location.hostname.match(regex);
+		} else {
+			actualDomainMatch = null;
+		}
+
+		const destinationDomainMatch = destinationUrl
+			? destinationUrl.hostname.match(regex)
+			: null;
+
+		const actualDomain = actualDomainMatch
+			? actualDomainMatch.toString()
+			: null;
+		const destinationDomain = destinationDomainMatch
+			? destinationDomainMatch.toString()
+			: null;
+
+		if (!destinationDomain || actualDomain !== destinationDomain) {
+			return [this.getDeviceIdsQueryString(), this.getSessionIdQueryString()]
+				.filter(x => x)
+				.join('&');
+		}
+		return '';
 	}
 
 	/**

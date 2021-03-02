@@ -102,6 +102,43 @@ test('not changing current URL', () => {
 	expect(newQuery).toBeNull();
 });
 
+test('parsing and matching destination and actual URL to regex', () => {
+	const urlParams = new AnalyticsUrlParams();
+	expect(urlParams.getQueryString()).toBe('');
+
+	urlParams.consumeUrlParameters('s_id=123&other=value');
+	expect(urlParams.getQueryString()).toBe('s_id=123');
+
+	// Case when not passing any destination or actual URL
+	urlParams.consumeUrlParameters('d_id=d1&other=value');
+	expect(urlParams.getQueryString()).toBe('d_id=d1&s_id=123');
+
+	// Case when passing matching destination and actual URL while a d_id and s_id exist.
+	expect(
+		urlParams.getQueryString(
+			new URL('https://test.domain.io'),
+			new URL('https://domain.io'),
+		),
+	).toBe('');
+
+	// Case when passing none matching destination and actual URL while a d_id and s_id exist.
+	expect(
+		urlParams.getQueryString(
+			new URL('https://test.domain.io'),
+			new URL('https://otherdomain.com'),
+		),
+	).toBe('d_id=d1&s_id=123');
+
+	// Case when passing destination URL that violates the TLD regex assumption. Here it will result in matching URL "edge.io", when in fact
+	// It should be treated as different URLs and return the d_id and s_id params
+	expect(
+		urlParams.getQueryString(
+			new URL('https://test.domain.edge.io'),
+			new URL('https://domain2.edge.io'),
+		),
+	).toBe('');
+});
+
 interface AnalyticsMock {
 	setDeviceIdParams: string | null;
 	deviceIdRetrieved: boolean;
