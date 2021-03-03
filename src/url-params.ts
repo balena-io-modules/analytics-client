@@ -104,8 +104,9 @@ export class AnalyticsUrlParams {
 			throw new Error('Client is already set');
 		}
 
-		if (!this.client && client.sessionId() === this.sessionId) {
+		if (!this.client && this.sessionId) {
 			this.client = client;
+			this.client.setSessionId(this.sessionId);
 			return;
 		}
 
