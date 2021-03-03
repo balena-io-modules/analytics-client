@@ -103,20 +103,17 @@ export class AnalyticsUrlParams {
 		if (this.client) {
 			throw new Error('Client is already set');
 		}
+
+		if (!this.client && client.sessionId() === this.sessionId) {
+			this.client = client;
+			return;
+		}
+
 		const newDeviceId = this.setDeviceIds(null, client.deviceId());
 		if (newDeviceId != null) {
 			client.setDeviceId(newDeviceId);
 		}
 		this.sessionId = client.sessionId();
-		this.client = client;
-	}
-
-	/**
-	 *
-	 * @param client
-	 * Sets the class client value to whatever client object is passed on the argument.
-	 */
-	declareClient(client: Client) {
 		this.client = client;
 	}
 
