@@ -262,9 +262,48 @@ test('set default client', () => {
 	urlParams.consumeUrlParameters('optOutAnalytics=false');
 	expect(urlParams.isOptOutRequested()).toBeFalsy();
 
+	const passedDeviceId = urlParams.getPassedDeviceId();
 	const client = clientMock();
-	const initialDeviceId = client.deviceId();
+
+	if (passedDeviceId) {
+		client.setDeviceId(passedDeviceId);
+	} else {
+		client.deviceId();
+	}
 	urlParams.setClient(client);
-	expect(client.deviceIdRetrieved).toBeTruthy();
-	expect(client.setDeviceIdParams).toStrictEqual(initialDeviceId);
+	const allDeviceIds = urlParams.allDeviceIds();
+	expect(client.setDeviceIdParams).toStrictEqual(null);
+	expect(allDeviceIds).toEqual(['test_device_id']);
+	expect(client.knownSessionId).toStrictEqual(123);
+});
+
+test('set default client with passed sessionId', () => {
+	const urlParams = new AnalyticsUrlParams();
+	urlParams.consumeUrlParameters('s_id=999&optOutAnalytics=false');
+	expect(urlParams.isOptOutRequested()).toBeFalsy();
+	const passedSessonId = urlParams.getSessionId();
+
+	const client = clientMock();
+	urlParams.setClient(client);
+	expect(client.setDeviceIdParams).toStrictEqual(null);
+	expect(client.knownSessionId).toStrictEqual(passedSessonId);
+});
+
+test('set default client with passed deviceId', () => {
+	const urlParams = new AnalyticsUrlParams();
+	urlParams.consumeUrlParameters('d_id=999,888,777');
+
+	const passedDeviceId = urlParams.getPassedDeviceId();
+	const client = clientMock();
+
+	if (passedDeviceId) {
+		client.setDeviceId(passedDeviceId);
+	} else {
+		client.deviceId();
+	}
+	const allDeviceIds = urlParams.allDeviceIds();
+	urlParams.setClient(client);
+	expect(client.setDeviceIdParams).toStrictEqual('999');
+	expect(allDeviceIds).toEqual(['999', '888', '777']);
+	expect(client.knownSessionId).toStrictEqual(123);
 });

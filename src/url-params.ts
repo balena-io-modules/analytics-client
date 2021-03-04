@@ -103,12 +103,24 @@ export class AnalyticsUrlParams {
 		if (this.client) {
 			throw new Error('Client is already set');
 		}
-		const newDeviceId = this.setDeviceIds(null, client.deviceId());
-		if (newDeviceId != null) {
-			client.setDeviceId(newDeviceId);
-		}
-		this.sessionId = client.sessionId();
+
 		this.client = client;
+		if (!this.deviceIds) {
+			this.setDeviceIds(null, this.client.deviceId());
+		}
+
+		if (this.sessionId && this.client.sessionId() !== this.sessionId) {
+			this.client.setSessionId(this.sessionId);
+			return;
+		}
+
+		// This can only return null if the function is called with no arguments, which I dont know if it makes sense to do that ever
+		// const newDeviceId = this.setDeviceIds(null, client.deviceId());
+		// In consecuence, this will always run and override the client deviceId with its already set same value.
+		// this is due to the fact that now client.deviceId() has already been set to the one of the inputIdString.
+		// if (newDeviceId != null) {
+		// 	client.setDeviceId(newDeviceId);
+		// }
 	}
 
 	/**

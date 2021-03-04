@@ -40,6 +40,9 @@ const client = createClient({
     componentVersion: require('./package.json').version, // (optional) automated version reporting
     deviceId: passedDeviceId,
 })
+
+// A newly created client is passed to the `AnalyticsUrlParams` to make it fully functional.
+urlParamsHandler.setClient(client);
 ```
 
 ## Usage
