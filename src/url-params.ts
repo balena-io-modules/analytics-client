@@ -105,6 +105,9 @@ export class AnalyticsUrlParams {
 		}
 
 		this.client = client;
+		if (!this.deviceIds) {
+			this.setDeviceIds(null, this.client.deviceId());
+		}
 
 		if (this.sessionId && this.client.sessionId() !== this.sessionId) {
 			this.client.setSessionId(this.sessionId);

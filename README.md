@@ -42,7 +42,7 @@ const client = createClient({
 })
 
 // A newly created client is passed to the `AnalyticsUrlParams` to make it fully functional.
-urlParamsHandler.declareClient(client);
+urlParamsHandler.setClient(client);
 ```
 
 ## Usage
