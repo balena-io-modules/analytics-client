@@ -153,7 +153,10 @@ const clientMock = () =>
 
 		deviceId() {
 			this.deviceIdRetrieved = true;
-			return 'test_device_id';
+			if (!this.setDeviceIdParams) {
+				return 'test_device_id';
+			}
+			return this.setDeviceIdParams;
 		},
 		sessionId() {
 			return this.knownSessionId;
