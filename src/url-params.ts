@@ -103,12 +103,24 @@ export class AnalyticsUrlParams {
 		if (this.client) {
 			throw new Error('Client is already set');
 		}
-		const newDeviceId = this.setDeviceIds(null, client.deviceId());
-		if (newDeviceId != null) {
-			client.setDeviceId(newDeviceId);
+		if (
+			this.getPassedDeviceId() &&
+			this.getPassedDeviceId() !== client.deviceId()
+		) {
+			const newDeviceId = this.setDeviceIds(null, client.deviceId());
+			if (newDeviceId != null) {
+				client.setDeviceId(newDeviceId);
+			}
+		}
+		if (this.sessionId && client.sessionId() !== this.sessionId) {
+			client.setSessionId(this.sessionId);
 		}
 		this.sessionId = client.sessionId();
 		this.client = client;
+	}
+
+	getClient() {
+		return this.client;
 	}
 
 	/**
