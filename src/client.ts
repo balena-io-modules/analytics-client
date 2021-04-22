@@ -97,6 +97,7 @@ class DefaultClient implements Client {
 		amplConfig.includeReferrer = true;
 		amplConfig.includeUtm = true;
 		amplConfig.sameSiteCookie = 'Lax';
+		amplConfig.unsetParamsReferrerOnNewSession = true;
 
 		if (config.deviceId) {
 			amplConfig.deviceId = config.deviceId;
