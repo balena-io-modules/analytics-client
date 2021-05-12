@@ -137,6 +137,27 @@ test('parsing and matching destination and actual URL to regex', () => {
 			new URL('https://domain2.edge.io'),
 		),
 	).toBe('');
+
+	// Case when passing a relative URL as destinationUrl
+	expect(
+		urlParams.getQueryString('/etcher', new URL('https://domain2.edge.io')),
+	).toBe('');
+
+	// Case when passing an absolute URL as a string for destinationUrl and no passing is expected
+	expect(
+		urlParams.getQueryString(
+			'https://test.domain.io',
+			new URL('https://domain.io'),
+		),
+	).toBe('');
+
+	// Case when passing an absolute URL as a string for destinationUrl and passing is expected
+	expect(
+		urlParams.getQueryString(
+			'https://test.domain.io',
+			new URL('https://otherdomain.com'),
+		),
+	).toBe('d_id=d1&s_id=123');
 });
 
 interface AnalyticsMock {
