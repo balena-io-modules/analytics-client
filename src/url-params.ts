@@ -175,12 +175,35 @@ export class AnalyticsUrlParams {
 	/**
 	 * @return full query parameter string that can be appended to URLs
 	 */
-	getQueryString(destinationUrl?: URL, currentUrl?: URL): string {
+	getQueryString(destinationUrl?: URL | string, currentUrl?: URL): string {
+		// we first check if destionationUrl is a relative URL string. If it is, we exit.
+		const relativeRegex = /^(?!www\.|(?:http|ftp)s?:\/\/|[A-Za-z]:\\|\/\/).*/g;
+		if (
+			typeof destinationUrl === 'string' &&
+			destinationUrl.match(relativeRegex)
+		) {
+			return '';
+		}
+
+		if (typeof destinationUrl === 'string') {
+			try {
+				destinationUrl = new URL(destinationUrl);
+			} catch (err) {
+				console.error(err);
+				return '';
+			}
+		}
+
 		// this regex is based on the assumption that we wont be using TLDs longer than 3 characters. If we do, it will break
 		// the logic and take that longer TLD as the main domain, for example hub.balena.edge.io -> edge.io
 		const regex = /([a-zA-Z0-9-]+)(\.[a-zA-Z]{2,3})?(\.[a-zA-Z]+$)/g;
 
-		let actualDomainMatch;
+		const destinationDomainMatch = destinationUrl
+			? destinationUrl.hostname.match(regex)
+			: null;
+		const destinationDomain = destinationDomainMatch?.[0];
+
+		let actualDomainMatch: RegExpMatchArray | null;
 		if (currentUrl) {
 			actualDomainMatch = currentUrl.hostname.match(regex);
 		} else if (typeof window !== 'undefined') {
@@ -189,16 +212,7 @@ export class AnalyticsUrlParams {
 			actualDomainMatch = null;
 		}
 
-		const destinationDomainMatch = destinationUrl
-			? destinationUrl.hostname.match(regex)
-			: null;
-
-		const actualDomain = actualDomainMatch
-			? actualDomainMatch.toString()
-			: null;
-		const destinationDomain = destinationDomainMatch
-			? destinationDomainMatch.toString()
-			: null;
+		const actualDomain = actualDomainMatch?.[0];
 
 		if (!destinationDomain || actualDomain !== destinationDomain) {
 			return [this.getDeviceIdsQueryString(), this.getSessionIdQueryString()]
