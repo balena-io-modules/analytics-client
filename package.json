@@ -1,6 +1,6 @@
 {
   "name": "analytics-client",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "Convenient builders to compose analytics tools",
   "repository": {
     "type": "git",
@@ -51,5 +51,8 @@
       "pre-commit": "lint-staged",
       "pre-push": "npm run lint"
     }
+  },
+  "versionist": {
+    "publishedAt": "2021-08-13T15:43:39.825Z"
   }
 }
