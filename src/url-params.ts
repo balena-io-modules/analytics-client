@@ -189,7 +189,8 @@ export class AnalyticsUrlParams {
 			try {
 				destinationUrl = new URL(destinationUrl);
 			} catch (err) {
-				return ''; //I dont know what we should do when an error like this happens. Any ideas??
+				console.error(err)
+				return ''; 
 			}
 		}
 
