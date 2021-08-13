@@ -189,8 +189,8 @@ export class AnalyticsUrlParams {
 			try {
 				destinationUrl = new URL(destinationUrl);
 			} catch (err) {
-				console.error(err)
-				return ''; 
+				console.error(err);
+				return '';
 			}
 		}
 
