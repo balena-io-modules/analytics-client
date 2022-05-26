@@ -24,7 +24,8 @@ const checkPercent = (f: number) => {
 
 /** LocalExperiment allows describing an Experiment implemented with local storage. */
 export class LocalExperiment<Variation extends string>
-	implements Experiment<Variation> {
+	implements Experiment<Variation>
+{
 	private readonly data: Array<VariationData<Variation>> = [];
 	private coveredPercent: number = 0;
 
@@ -34,7 +35,7 @@ export class LocalExperiment<Variation extends string>
 	) {}
 
 	private checkDuplicates(variation: Variation) {
-		const present = this.data.find(d => d.variation === variation);
+		const present = this.data.find((d) => d.variation === variation);
 		if (present != null) {
 			throw new Error(
 				`Variation [${present.variation} ${present.targetPercent}%] already exists in experiment ${this.name}.`,
@@ -44,7 +45,7 @@ export class LocalExperiment<Variation extends string>
 
 	private static dataString(data: Array<VariationData<any>>): string {
 		return data
-			.map(d => `variation ${d.variation}: ${d.targetPercent}%`)
+			.map((d) => `variation ${d.variation}: ${d.targetPercent}%`)
 			.join(', ');
 	}
 

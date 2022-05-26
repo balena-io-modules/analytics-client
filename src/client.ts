@@ -126,8 +126,7 @@ class DefaultClient implements Client {
 
 		if (mixpanelDataPresent) {
 			mixpanel.init(this.config.projectName, {
-				autotrack: false,
-				track_pageview: false,
+				autotrack: false
 			});
 			this.amplitudeInstance.setDeviceId(mixpanel.get_distinct_id());
 		}
@@ -212,7 +211,7 @@ class DefaultClient implements Client {
 
 /** NoopClient does nothing when  */
 class NoopClient implements Client {
-	constructor(private readonly logEvents: boolean) {}
+	constructor(private readonly logEvents: boolean) { }
 
 	private log(...args: any[]) {
 		if (this.logEvents) {
