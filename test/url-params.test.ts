@@ -1,5 +1,12 @@
-import { Client, createNoopClient } from '../src/client';
+/**
+ * @jest-environment jsdom
+ */
+
+import { Client } from '../src/client';
 import { AnalyticsUrlParams } from '../src/url-params';
+import { NoopClient } from '../src/NoopClient';
+import * as Cookies from 'js-cookie';
+import { COOKIES_DEVICE_IDS } from '../src/config';
 
 beforeEach(() => new AnalyticsUrlParams().clearCookies());
 
@@ -129,8 +136,9 @@ test('parsing and matching destination and actual URL to regex', () => {
 		),
 	).toBe('d_id=d1&s_id=123');
 
-	// Case when passing destination URL that violates the TLD regex assumption. Here it will result in matching URL "edge.io", when in fact
-	// It should be treated as different URLs and return the d_id and s_id params
+	// Case when passing destination URL that violates the TLD regex assumption.
+	// Here it will result in matching URL "edge.io", when in fact
+	// it should be treated as different URLs and return the d_id and s_id params
 	expect(
 		urlParams.getQueryString(
 			new URL('https://test.domain.edge.io'),
@@ -278,7 +286,7 @@ test('set noop client', () => {
 	const urlParams = new AnalyticsUrlParams();
 	urlParams.consumeUrlParameters('optOutAnalytics=true');
 	expect(urlParams.isOptOutRequested()).toBeTruthy();
-	urlParams.setClient(createNoopClient());
+	urlParams.setClient(new NoopClient(false));
 });
 
 test('set default client', () => {
@@ -327,4 +335,28 @@ test('set default client with passed deviceId', () => {
 	expect(allDeviceIds).toEqual(['999', '888', '777']);
 	expect(client.knownSessionId).toStrictEqual(123);
 	expect(urlParams.getClient()).toEqual(client);
+});
+
+test('throws if trying to set a client twice', () => {
+	const urlParams = new AnalyticsUrlParams();
+	urlParams.setClient(new NoopClient(false));
+
+	expect(() => urlParams.setClient(new NoopClient(false))).toThrow(
+		'Client is already set',
+	);
+});
+
+test('set client with device id', () => {
+	const client = clientMock();
+	client.setDeviceId = jest.fn();
+	client.deviceId = jest.fn().mockReturnValue('d1');
+
+	Cookies.set(COOKIES_DEVICE_IDS, 'd_id');
+
+	const urlParams = new AnalyticsUrlParams();
+	urlParams.setClient(client);
+
+	expect(client.setDeviceId).toHaveBeenLastCalledWith('d1');
+
+	Cookies.remove(COOKIES_DEVICE_IDS);
 });

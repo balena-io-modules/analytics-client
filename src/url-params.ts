@@ -1,5 +1,6 @@
 import * as Cookies from 'js-cookie';
 import { Client } from './client';
+
 import {
 	COOKIES_DEVICE_IDS,
 	COOKIES_TTL_DAYS,

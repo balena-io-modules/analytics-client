@@ -3,7 +3,9 @@ module.exports = {
         '<rootDir>/test'
     ],
     transform: {
-        '^.+\\.tsx?$': 'ts-jest'
+        '^.+\\.ts?$': 'ts-jest'
     },
-    testEnvironment: 'jsdom'
+    verbose: true,
+    collectCoverage: true,
+    coveragePathIgnorePatterns: ['./src/NoopClient.ts']
 };
