@@ -1,53 +1,25 @@
 import { Client, ClientConfig, Properties } from './client';
-import * as amplitude from '@amplitude/node';
-import { Identify } from '@amplitude/identify';
-import {
-	USER_PROP_ANALYTICS_CLIENT_VERSION,
-	USER_PROP_COMPONENT_NAME,
-} from './config';
-import { version } from '../package.json';
+import axios from 'axios';
+
 
 interface NodeClientConfig extends ClientConfig {
-	apiKey: string;
+	endpoint: string;
 }
 
-const identifyObject = () =>
-	new Identify().set(USER_PROP_ANALYTICS_CLIENT_VERSION, `node-${version}`);
-
 export class NodeClient implements Client {
-	private readonly amplitudeInstance: amplitude.NodeClient;
-
-	private _deviceId: string | null;
-	private _sessionId: number | null;
-	private _userId: string | null;
 
 	constructor(
 		private readonly prefix: string,
 		private readonly config: NodeClientConfig,
-	) {
-		this.amplitudeInstance = new amplitude.NodeClient(this.config.apiKey);
-		this.identify();
+	) { }
+
+
+	deviceId() {
+		return '';
 	}
 
-	private identify(): void {
-		this.amplitudeInstance
-			.identify(
-				this._userId,
-				this._deviceId,
-				identifyObject().set(
-					USER_PROP_COMPONENT_NAME,
-					this.config.componentName,
-				),
-			)
-			.catch(console.error);
-	}
-
-	deviceId(): string {
-		return this._deviceId!!;
-	}
-
-	sessionId(): number {
-		return this._sessionId!!;
+	sessionId() {
+		return -1;
 	}
 
 	linkDevices() {
@@ -56,23 +28,16 @@ export class NodeClient implements Client {
 	regenerateDeviceId() {
 		/* nothing */
 	}
-
-	setDeviceId(deviceId: string): void {
-		this._deviceId = deviceId;
-		this.identify();
+	setDeviceId(): void {
+		/* nothing */
 	}
-
-	setSessionId(sessionId: number): void {
-		/* Is this usefull in any sense ? */
-		this._sessionId = sessionId;
+	setSessionId(): void {
+		/* nothing */
 	}
-
-	setUserId(userId: string): void {
-		this._userId = userId;
-		this.identify();
+	setUserId(): void {
+		/* nothing */
 	}
-
-	setUserProperties(): void {
+	setUserProperties() {
 		/* nothing */
 	}
 
@@ -81,10 +46,6 @@ export class NodeClient implements Client {
 		const event = {
 			event_type: eventName,
 		};
-		this.amplitudeInstance
-			.logEvent(event, props)
-			.catch((err) =>
-				console.error('Failed to submit event to amplitude', err),
-			);
+		axios.post(`${this.config.endpoint}/amplitude`, { event, props }).catch(console.error);
 	}
 }
