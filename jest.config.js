@@ -7,5 +7,5 @@ module.exports = {
     },
     verbose: true,
     collectCoverage: true,
-    coveragePathIgnorePatterns: ['./src/NoopClient.ts']
+    coveragePathIgnorePatterns: ['./src/noop-client.ts']
 };

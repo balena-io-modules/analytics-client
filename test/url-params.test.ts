@@ -4,7 +4,7 @@
 
 import { Client } from '../src/client';
 import { AnalyticsUrlParams } from '../src/url-params';
-import { NoopClient } from '../src/NoopClient';
+import { NoopClient } from '../src/noop-client';
 import * as Cookies from 'js-cookie';
 import { COOKIES_DEVICE_IDS } from '../src/config';
 
@@ -175,28 +175,28 @@ interface AnalyticsMock {
 }
 
 const clientMock = () =>
-	({
-		setDeviceIdParams: null,
-		deviceIdRetrieved: false,
-		knownSessionId: 123,
+({
+	setDeviceIdParams: null,
+	deviceIdRetrieved: false,
+	knownSessionId: 123,
 
-		deviceId() {
-			this.deviceIdRetrieved = true;
-			if (!this.setDeviceIdParams) {
-				return 'test_device_id';
-			}
-			return this.setDeviceIdParams;
-		},
-		sessionId() {
-			return this.knownSessionId;
-		},
-		setDeviceId(deviceId: string) {
-			this.setDeviceIdParams = deviceId;
-		},
-		setSessionId(sessionId: number) {
-			this.knownSessionId = sessionId;
-		},
-	} as Client & AnalyticsMock);
+	deviceId() {
+		this.deviceIdRetrieved = true;
+		if (!this.setDeviceIdParams) {
+			return 'test_device_id';
+		}
+		return this.setDeviceIdParams;
+	},
+	sessionId() {
+		return this.knownSessionId;
+	},
+	setDeviceId(deviceId: string) {
+		this.setDeviceIdParams = deviceId;
+	},
+	setSessionId(sessionId: number) {
+		this.knownSessionId = sessionId;
+	},
+} as Client & AnalyticsMock);
 
 const clientUrlParameters = (): [AnalyticsUrlParams, AnalyticsMock] => {
 	const mp = clientMock();
@@ -286,7 +286,7 @@ test('set noop client', () => {
 	const urlParams = new AnalyticsUrlParams();
 	urlParams.consumeUrlParameters('optOutAnalytics=true');
 	expect(urlParams.isOptOutRequested()).toBeTruthy();
-	urlParams.setClient(new NoopClient(false));
+	urlParams.setClient(new NoopClient());
 });
 
 test('set default client', () => {
@@ -339,9 +339,9 @@ test('set default client with passed deviceId', () => {
 
 test('throws if trying to set a client twice', () => {
 	const urlParams = new AnalyticsUrlParams();
-	urlParams.setClient(new NoopClient(false));
+	urlParams.setClient(new NoopClient());
 
-	expect(() => urlParams.setClient(new NoopClient(false))).toThrow(
+	expect(() => urlParams.setClient(new NoopClient())).toThrow(
 		'Client is already set',
 	);
 });

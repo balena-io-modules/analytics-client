@@ -33,8 +33,8 @@ export class WebClient implements Client, WebTracker {
 	private readonly amplitudeInstance: amplitude.AmplitudeClient;
 
 	constructor(
+		private readonly prefix: string,
 		private readonly config: WebClientConfig,
-		private readonly prefix?: string,
 	) {
 		this.amplitudeInstance = amplitude.getInstance(config.projectName);
 

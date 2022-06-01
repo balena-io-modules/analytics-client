@@ -1,7 +1,7 @@
 import { Client, Properties } from './client';
 
 export class NoopClient implements Client {
-	constructor(private readonly logEvents: boolean) {}
+	constructor(private readonly prefix: string = 'NOOP', private readonly logEvents: boolean = false) { }
 
 	private log(...args: any[]) {
 		if (this.logEvents) {
@@ -37,6 +37,6 @@ export class NoopClient implements Client {
 	}
 
 	track(eventType: string, props?: Properties): void {
-		this.log(`track [${eventType}]`, props);
+		this.log(`[${this.prefix}] ${eventType}`, props);
 	}
 }

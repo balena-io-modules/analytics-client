@@ -22,8 +22,8 @@ export class NodeClient implements Client {
 	private _userId: string | null;
 
 	constructor(
+		private readonly prefix: string,
 		private readonly config: NodeClientConfig,
-		private readonly prefix?: string,
 	) {
 		this.amplitudeInstance = new amplitude.NodeClient(this.config.apiKey);
 		this.identify();

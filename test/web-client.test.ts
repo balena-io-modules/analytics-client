@@ -2,7 +2,7 @@
  * @jest-environment jsdom
  */
 
-import { WebClient } from '../src/WebClient';
+import { WebClient } from '../src/web-client';
 import * as Cookies from 'js-cookie';
 
 const amplitudeClientMock = {
@@ -38,13 +38,13 @@ const mockWindowMetrics = (windowMetrics: DOMPerformanceMetric[]) => {
 	const windowSpy = jest.spyOn(global, 'window', 'get');
 	windowSpy.mockImplementation(
 		() =>
-			({
-				...originalWindow,
-				performance: {
-					...originalWindow.performance,
-					getEntriesByType,
-				},
-			} as any),
+		({
+			...originalWindow,
+			performance: {
+				...originalWindow.performance,
+				getEntriesByType,
+			},
+		} as any),
 	);
 };
 
@@ -61,13 +61,10 @@ jest.mock('amplitude-js', () => ({
 let client: WebClient;
 
 beforeEach(() => {
-	client = new WebClient(
-		{
-			projectName: 'balena-test',
-			componentName: 'test',
-		},
-		'TEST',
-	);
+	client = new WebClient('TEST', {
+		projectName: 'balena-test',
+		componentName: 'test',
+	});
 	amplitudeClientMock.regenerateDeviceId.mockClear();
 	amplitudeClientMock.setUserId.mockClear();
 	amplitudeClientMock.setDeviceId.mockClear();
@@ -75,6 +72,7 @@ beforeEach(() => {
 	amplitudeClientMock.identify.mockClear();
 	amplitudeClientMock.setVersionName.mockClear();
 	amplitudeClientMock.getSessionId.mockClear();
+	amplitudeClientMock.logEvent.mockClear();
 
 	identiFyMock.set.mockClear();
 	identiFyMock.setOnce.mockClear();
@@ -120,7 +118,7 @@ describe('client interface tests', () => {
 	});
 
 	test('amplitude config', () => {
-		const clientWithEndpoint = new WebClient({
+		const clientWithEndpoint = new WebClient('TEST', {
 			projectName: 'balena-test',
 			endpoint: 'some.host',
 			componentName: 'test',
@@ -150,7 +148,7 @@ describe('client interface tests', () => {
 	});
 
 	test('amplitude configuration', () => {
-		const configClient = new WebClient({
+		const configClient = new WebClient('TEST', {
 			projectName: 'balena-test',
 			endpoint: 'some.host',
 			componentName: 'test',
@@ -158,7 +156,7 @@ describe('client interface tests', () => {
 			componentVersion: 'my-version',
 			amplitude: {
 				optOut: true,
-			},
+			}
 		});
 
 		expect(amplitudeClientMock.init.mock.lastCall[2].deviceId).toBe(
@@ -175,7 +173,7 @@ describe('client interface tests', () => {
 	test('mixpanel device id', () => {
 		Cookies.set('mp_balena-test', 'on');
 
-		const mixPanelClient = new WebClient({
+		const mixPanelClient = new WebClient('TEST', {
 			projectName: 'balena-test',
 			componentName: 'test',
 		});
@@ -196,17 +194,6 @@ describe('webtracker interface tests', () => {
 			'[TEST] simple event',
 			{ p1: 'd1' },
 		);
-	});
-
-	test('track event without prefix', () => {
-		const noPrefixClient = new WebClient({
-			projectName: 'balena-test',
-			componentName: 'test',
-		});
-		noPrefixClient.track('simple event', { p1: 'd1' });
-		expect(amplitudeClientMock.logEvent).toHaveBeenCalledWith('simple event', {
-			p1: 'd1',
-		});
 	});
 
 	test('track navigation click', () => {
