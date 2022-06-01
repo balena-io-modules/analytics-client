@@ -38,13 +38,13 @@ const mockWindowMetrics = (windowMetrics: DOMPerformanceMetric[]) => {
 	const windowSpy = jest.spyOn(global, 'window', 'get');
 	windowSpy.mockImplementation(
 		() =>
-		({
-			...originalWindow,
-			performance: {
-				...originalWindow.performance,
-				getEntriesByType,
-			},
-		} as any),
+			({
+				...originalWindow,
+				performance: {
+					...originalWindow.performance,
+					getEntriesByType,
+				},
+			} as any),
 	);
 };
 
@@ -156,7 +156,7 @@ describe('client interface tests', () => {
 			componentVersion: 'my-version',
 			amplitude: {
 				optOut: true,
-			}
+			},
 		});
 
 		expect(amplitudeClientMock.init.mock.lastCall[2].deviceId).toBe(

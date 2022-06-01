@@ -175,28 +175,28 @@ interface AnalyticsMock {
 }
 
 const clientMock = () =>
-({
-	setDeviceIdParams: null,
-	deviceIdRetrieved: false,
-	knownSessionId: 123,
+	({
+		setDeviceIdParams: null,
+		deviceIdRetrieved: false,
+		knownSessionId: 123,
 
-	deviceId() {
-		this.deviceIdRetrieved = true;
-		if (!this.setDeviceIdParams) {
-			return 'test_device_id';
-		}
-		return this.setDeviceIdParams;
-	},
-	sessionId() {
-		return this.knownSessionId;
-	},
-	setDeviceId(deviceId: string) {
-		this.setDeviceIdParams = deviceId;
-	},
-	setSessionId(sessionId: number) {
-		this.knownSessionId = sessionId;
-	},
-} as Client & AnalyticsMock);
+		deviceId() {
+			this.deviceIdRetrieved = true;
+			if (!this.setDeviceIdParams) {
+				return 'test_device_id';
+			}
+			return this.setDeviceIdParams;
+		},
+		sessionId() {
+			return this.knownSessionId;
+		},
+		setDeviceId(deviceId: string) {
+			this.setDeviceIdParams = deviceId;
+		},
+		setSessionId(sessionId: number) {
+			this.knownSessionId = sessionId;
+		},
+	} as Client & AnalyticsMock);
 
 const clientUrlParameters = (): [AnalyticsUrlParams, AnalyticsMock] => {
 	const mp = clientMock();

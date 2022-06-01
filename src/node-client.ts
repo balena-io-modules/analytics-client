@@ -27,7 +27,6 @@ export class NodeClient implements Client {
 	) {
 		this.amplitudeInstance = new amplitude.NodeClient(this.config.apiKey);
 		this.identify();
-
 	}
 
 	private identify(): void {
@@ -35,7 +34,10 @@ export class NodeClient implements Client {
 			.identify(
 				this._userId,
 				this._deviceId,
-				identifyObject().set(USER_PROP_COMPONENT_NAME, this.config.componentName),
+				identifyObject().set(
+					USER_PROP_COMPONENT_NAME,
+					this.config.componentName,
+				),
 			)
 			.catch(console.error);
 	}
@@ -75,7 +77,7 @@ export class NodeClient implements Client {
 	}
 
 	track(eventType: string, props?: Properties): void {
-		const eventName = `${this.prefix ? `[${this.prefix}] ` : ''}${eventType}`;
+		const eventName = `[${this.prefix}] ${eventType}`;
 		const event = {
 			event_type: eventName,
 		};

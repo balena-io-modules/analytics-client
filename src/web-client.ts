@@ -150,7 +150,7 @@ export class WebClient implements Client, WebTracker {
 	}
 
 	track(eventType: string, props?: Properties): void {
-		const eventName = `${this.prefix ? `[${this.prefix}] ` : ''}${eventType}`;
+		const eventName = `[${this.prefix}] ${eventType}`;
 		this.amplitudeInstance.logEvent(eventName, props);
 	}
 

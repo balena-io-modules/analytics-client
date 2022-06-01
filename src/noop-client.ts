@@ -1,7 +1,10 @@
 import { Client, Properties } from './client';
 
 export class NoopClient implements Client {
-	constructor(private readonly prefix: string = 'NOOP', private readonly logEvents: boolean = false) { }
+	constructor(
+		private readonly prefix: string = 'NOOP',
+		private readonly logEvents: boolean = false,
+	) {}
 
 	private log(...args: any[]) {
 		if (this.logEvents) {
