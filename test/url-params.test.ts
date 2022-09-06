@@ -54,7 +54,7 @@ test('merge device IDs', () => {
 	urlParams.consumeUrlParameters('d_id=d1,d2,d3&other=value');
 	urlParams.consumeUrlParameters('d_id=d2,d3,d4&other=value');
 
-	['d1', 'd2', 'd3', 'd4'].forEach(id =>
+	['d1', 'd2', 'd3', 'd4'].forEach((id) =>
 		expect(urlParams.allDeviceIds()).toContain(id),
 	);
 });
@@ -201,7 +201,7 @@ test('use mixpanel distinct ID', () => {
 	urlParams.consumeUrlParameters('d_id=d1,d2,d3&other=value');
 	urlParams.consumeUrlParameters('d_id=d2,d3,d4&other=value');
 
-	['d1', 'd2', 'd3', 'd4', 'test_device_id'].forEach(id =>
+	['d1', 'd2', 'd3', 'd4', 'test_device_id'].forEach((id) =>
 		expect(urlParams.allDeviceIds()).toContain(id),
 	);
 });
@@ -216,7 +216,7 @@ test('update client state', () => {
 
 	urlParams.consumeUrlParameters('d_id=test_input&s_id=234&other=value');
 
-	['test_input', 'test_device_id'].forEach(id =>
+	['test_input', 'test_device_id'].forEach((id) =>
 		expect(urlParams.allDeviceIds()).toContain(id),
 	);
 	expect(urlParams.getSessionId()).toBe(234);

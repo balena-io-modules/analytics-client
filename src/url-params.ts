@@ -216,7 +216,7 @@ export class AnalyticsUrlParams {
 
 		if (!destinationDomain || actualDomain !== destinationDomain) {
 			return [this.getDeviceIdsQueryString(), this.getSessionIdQueryString()]
-				.filter(x => x)
+				.filter((x) => x)
 				.join('&');
 		}
 		return '';
