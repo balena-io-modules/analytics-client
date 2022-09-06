@@ -24,8 +24,9 @@ export function createWebTracker(client: Client, prefix?: string): WebTracker {
 			});
 		},
 
-		trackPageView(name?: string) {
+		trackPageView(name?: string, props?: Properties) {
 			this.track(name ? name : 'Page View', {
+				...props,
 				current_url: window.location.href,
 				current_url_path: window.location.pathname,
 				metrics: getPageloadMetrics(),
