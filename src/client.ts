@@ -127,7 +127,6 @@ class DefaultClient implements Client {
 		if (mixpanelDataPresent) {
 			mixpanel.init(this.config.projectName, {
 				autotrack: false,
-				track_pageview: false,
 			});
 			this.amplitudeInstance.setDeviceId(mixpanel.get_distinct_id());
 		}

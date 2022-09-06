@@ -32,7 +32,7 @@ test('device linking', () => {
 		setUserIdCallsCount++;
 	};
 	const realSetDeviceId = client.amplitude().setDeviceId;
-	client.amplitude().setDeviceId = deviceId => {
+	client.amplitude().setDeviceId = (deviceId) => {
 		lastDeviceId = deviceId;
 		realSetDeviceId.call(client.amplitude(), deviceId);
 	};
@@ -66,7 +66,7 @@ test('user properties', () => {
 
 	let callCount = 0;
 	let expectedProps: any = null;
-	client.amplitude().identify = obj => {
+	client.amplitude().identify = (obj) => {
 		callCount++;
 		expect((obj as any).userPropertiesOperations).toStrictEqual(expectedProps);
 	};
