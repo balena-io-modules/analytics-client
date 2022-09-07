@@ -20,9 +20,8 @@
     "prepublish": "npm run build"
   },
   "dependencies": {
-    "@amplitude/node": "^1.10.0",
-    "@types/amplitude-js": "^8.16.1",
-    "amplitude-js": "^8.18.3",
+    "@types/amplitude-js": "5.11.0",
+    "amplitude-js": "5.11.0",
     "js-cookie": "^3.0.1",
     "mixpanel-browser": "^2.29.0"
   },
