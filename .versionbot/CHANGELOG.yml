@@ -1,0 +1,897 @@
+- commits:
+    - subject: removes not needed repo.yml file
+      hash: 2a04d51a4aefb1be74d7fd3095f6ec622fff1f6c
+      body: ""
+      footer:
+        change-type: patch
+      author: Otávio Jacobi
+    - subject: Replace balenaCI with flowzone
+      hash: 5a82319e48c726d1b1d7aab77ef1349e7c9542ae
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Otávio Jacobi
+  version: 1.8.2
+  title: ""
+  date: 2022-09-27T12:00:53.890Z
+- version: 1.8.1
+  date: 2022-09-07T12:37:42Z
+  commits:
+    - hash: 71c60b09f2985b62944e8e64c46c4ec5bd568836
+      author: Otávio Jacobi
+      footers:
+        change-type: patch
+        signed-off-by: Otavio Jacobi <otavio.jacobi@balena.io>
+      subject: rolls back analytics client version
+      body: null
+- version: 1.8.0
+- date: 2022-09-06T12:38:46Z
+- commits:
+    - hash: 3c1e71dea8bd7b88aced7fc1fcc774c2a86f0612
+- commits:
+    - author: Otávio Jacobi
+- commits:
+    - footers:
+        change-type: minor
+- commits:
+    - footers:
+        signed-off-by: Otavio Jacobi <otavio.jacobi@balena.io>
+- commits:
+    - subject: fixes old vulnerable dependencies
+- commits:
+    - ? body
+- commits:
+    - hash: cba455edc3be4bdf2f50415a8804a1d36c6e0c81
+- commits:
+    - author: Otávio Jacobi
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Otavio Jacobi <otavio.jacobi@balena.io>
+- commits:
+    - subject: fixes access config for ci
+- commits:
+    - ? body
+- commits:
+    - hash: 5cd3f7dc839c56f205a9f66cc145d8e8586002bb
+- commits:
+    - author: Otávio Jacobi
+- commits:
+    - footers:
+        change-type: minor
+- commits:
+    - footers:
+        signed-off-by: Otavio Jacobi <otavio.jacobi@balena.io>
+- commits:
+    - subject: adds optional props to track page view
+- commits:
+    - ? body
+- version: 1.7.0
+- date: 2021-08-13T15:50:24Z
+- commits:
+    - hash: 43e9be3389d31cc1c1ec5848598ad935988bcfc0
+- commits:
+    - author: Ezequiel Boehler
+- commits:
+    - footers:
+        change-type: Minor
+- commits:
+    - footers:
+        signed-off-by: Ezequiel Boehler ezequiel@balena.io
+- commits:
+    - subject: Get getQueryString to expect relative URLs too
+- commits:
+    - ? body
+- commits:
+    - hash: 652d25357c1160f62c78ae6105fead8a81e67916
+- commits:
+    - author: Ezequiel Boehler
+- commits:
+    - subject: log error before returning
+- commits:
+    - ? body
+- commits:
+    - hash: 8faf51bfe26c320e59ff2aa88b50d155b515fe5a
+- commits:
+    - author: Ezequiel Boehler
+- commits:
+    - subject: added node types dependency
+- commits:
+    - ? body
+- commits:
+    - hash: ef48d4d2102007e73dbcd8e7620c7004904f374d
+- commits:
+    - author: Ezequiel Boehler
+- commits:
+    - subject: prettified
+- commits:
+    - ? body
+- commits:
+    - hash: 52e2284b7f6f44a1aa310470454cb3c515ad20a7
+- commits:
+    - author: Ezequiel Boehler
+- commits:
+    - subject: Merge branch 'getQueryString_expect_relative_url' of
+        github.com:balena-io-modules/analytics-client into
+        getQueryString_expect_relative_url
+- commits:
+    - ? body
+- version: 1.6.0
+- date: 2021-04-23T09:20:50Z
+- commits:
+    - hash: 202c85add1f48ed47ce9d15f911d1b996bbcec69
+- commits:
+    - author: Ezequiel Boehler
+- commits:
+    - footers:
+        change-type: Minor
+- commits:
+    - footers:
+        signed-off-by: Ezequiel Boehler ezequiel@balena.io
+- commits:
+    - subject: Added unsetParamsReferrerOnNewSession to client
+- commits:
+    - body: |-
+        With this config variable set to true, now new sessions that
+        dont include referrer or UTM values will be set to null or none
+        instead of carrying over previous referrers. This should help us
+        to properly identify trends and behaviour of referrers since
+        its more transparent than the previous behaviour.
+- version: 1.5.0
+- date: 2021-03-29T16:23:50Z
+- commits:
+    - hash: 30a54cf48f67cdf55c6303284613a0498b2b199e
+- commits:
+    - author: Ezequiel Boehler
+- commits:
+    - footers:
+        change-type: Minor
+- commits:
+    - footers:
+        signed-off-by: Ezequiel Boehler ezequiel@balena.com
+- commits:
+    - subject: Update setClient() to work with new init method
+- commits:
+    - body: |-
+        With these changes we can now call setClient and pass an already created
+        and initialized client withouth running all the cookie writing logic
+        again
+- version: 1.4.0
+- date: 2021-03-03T07:17:43Z
+- commits:
+    - hash: e43cca13cf0eab25c29f015836f1828d95c25d49
+- commits:
+    - author: Ezequiel Boehler
+- commits:
+    - footers:
+        change-type: Minor
+- commits:
+    - footers:
+        signed-off-by: Ezequiel Boehler ezequiel@balena.io
+- commits:
+    - subject: Changed getQueryString to validate domains
+- commits:
+    - body: |-
+        Since we only want to append device id and session id when needed,
+        that is, when navigating cross domain or cross component, now the
+        getQueryString function checks if there is a passed destination
+        hostname and if so it compares its main domain to the main domain of
+        the actual URL the user is on. When a difference between the two exists,
+        or there was no destination hostname passed it returns both
+        d_id and s_id params. Otherwise if these 2 are the same, it returns
+        an empty string.
+- version: 1.3.0
+- date: 2021-02-25T09:45:26Z
+- commits:
+    - hash: edf114a88cbe63b0a30bbf96d6f38609e36b6515
+- commits:
+    - author: Pranas Ziaukas
+- commits:
+    - footers:
+        change-type: minor
+- commits:
+    - footers:
+        signed-off-by: Pranas Ziaukas <pranas@balena.io>
+- commits:
+    - subject: Implement session ID parsing and logic
+- commits:
+    - ? body
+- commits:
+    - hash: 7963ec02e48dc75389be0195b7049232a3888f78
+- commits:
+    - author: Pranas Ziaukas
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Pranas Ziaukas <pranas@balena.io>
+- commits:
+    - subject: Don't store session ID in a cookie
+- commits:
+    - ? body
+- version: 1.2.1
+- date: 2021-02-24T07:36:32Z
+- commits:
+    - hash: 6c00d4a1327fc00c4fd1cdf9870105060dd5d76f
+- commits:
+    - author: Pranas Ziaukas
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Pranas Ziaukas <pranas@balena.io>
+- commits:
+    - subject: Fix `optOutRequested` typo
+- commits:
+    - ? body
+- version: 1.2.0
+- date: 2021-02-22T12:05:33Z
+- commits:
+    - hash: 0fe6f15a33ff2af356d5dce6237d9cb3a4620aad
+- commits:
+    - author: Ezequiel Boehler
+- commits:
+    - footers:
+        change-type: Minor
+- commits:
+    - footers:
+        signed-off-by: Ezequiel Boehler ezequiel@balena.io
+- commits:
+    - subject: Changed type of passedDeviceId on url-params
+- commits:
+    - body: Changed it from null to undefined on url-params.ts
+- commits:
+    - hash: d16732fc533953fc42bab03bb58dbe454f6fb4e1
+- commits:
+    - author: Ezequiel Boehler
+- commits:
+    - subject: Prettified and lint code
+- commits:
+    - ? body
+- version: 1.1.0
+- date: 2021-02-17T17:45:19Z
+- commits:
+    - hash: 72253e26d317511bae76b31270041d76a36d381c
+- commits:
+    - author: gelbal
+- commits:
+    - footers:
+        change-type: minor
+- commits:
+    - footers:
+        signed-off-by: Fırat Gelbal firat@balena.io
+- commits:
+    - subject: Add trackNavigationClick
+- commits:
+    - ? body
+- version: 1.0.0
+- date: 2021-02-17T14:44:37Z
+- commits:
+    - hash: e8c0da3fd5df71062715c7c041f44e941260d8b0
+- commits:
+    - author: Ezequiel Boehler
+- commits:
+    - footers:
+        change-type: Major
+- commits:
+    - footers:
+        signed-off-by: Ezequiel Boehler ezequiel@balena.io
+- commits:
+    - subject: Changes on how device_id is treated on init
+- commits:
+    - body: |-
+        With this changes the consumeUrlParams dont override the client
+        device_id with the passed one. Instead it returns the passed one
+        if exists and the clean queryParams string.
+        Then the amplitude Config is now allowed to recieve a device_id.
+        So then the client creation happens, if a device_id is passed on Config,
+        (which should be the one obtained from consumeUrlParams now),
+        it initiates the client with that device_id, and if not, it initiates
+        with no device_id, so it creates one.
+        Since this changes modifies some of the base logic of the
+        analytics-client, other components implementation should be
+        revisited to comply with these changes.
+- version: 0.12.1
+- date: 2020-12-16T15:33:29Z
+- commits:
+    - hash: 164aed239ce56d2695608d7f826b02079e8dbc16
+- commits:
+    - author: gelbal
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Fırat Gelbal firat@balena.io
+- commits:
+    - subject: Address PR feedback
+- commits:
+    - ? body
+- version: 0.12.0
+- date: 2020-12-14T11:44:02Z
+- commits:
+    - hash: a04e6b670fd2c76116522e4b7045b67fefca8c57
+- commits:
+    - author: gelbal
+- commits:
+    - footers:
+        change-type: minor
+- commits:
+    - footers:
+        signed-off-by: Fırat Gelbal firat@balena.io
+- commits:
+    - subject: Add documentation
+- commits:
+    - ? body
+- commits:
+    - hash: 575e4cf7091a190f8e72eab5ec70238de31d5d2d
+- commits:
+    - author: gelbal
+- commits:
+    - subject: Address PR feedback
+- commits:
+    - ? body
+- version: 0.11.2
+- date: 2020-07-29T11:28:41Z
+- commits:
+    - hash: 9606661424cc4bd14a21471dbc43de15fd6102cb
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Fix broken cookies
+- commits:
+    - body: >-
+        While working on integrating the latest client into our docs,
+
+        I noticed that Amplitude client is not able to create its cookie.
+
+        The issue is that in v5.11.0 they introduced the sameSiteCookie
+
+        property with default value None. However, it works only wih the
+
+        combination of setting Secure flag on a cookie in recent Chrome versions,
+
+        which is not done.
+
+        This change bumps the version, and fixes the behaviour setting
+
+        SameSite attribute to Lax. It matches the latest Amplitude lib
+
+        beehaviour (we don't update to the latest because of some breaking changes).
+
+        We also pin the client version to avoid such issues in the future.
+- version: 0.11.1
+- date: 2020-07-28T15:29:54Z
+- commits:
+    - hash: 37e8ea88c8aca3679549dd85a92bc271dbe59707
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Handle the case when user ID and device ID are equal
+- commits:
+    - body: >-
+        Because we migrate from mixpanel to amplitude and use
+
+        the old distinct_id as a device ID, we can have situations when user ID
+
+        and device ID are set to the same value in Amplitude client.
+
+        However, the Amplitude service seems to ignore the user_id in such case.
+
+        This leads to some problems with reporting (if the same browser is used for
+
+        multiple users, we get events reported for a wrong user).
+
+        This change ensures we don't set device ID to a user ID value when we have
+
+        a choice (when multiple profiles are merged).
+- version: 0.11.0
+- date: 2020-07-22T10:05:24Z
+- commits:
+    - hash: cfc7341feb1140ed207c1bed75548b145330dd6c
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: minor
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Add opt-out URL parameter parsing
+- commits:
+    - ? body
+- commits:
+    - hash: 6014fc5380edc93bfad707d6584d4418b00c3b74
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: minor
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Allow setting cliient after URL params consumption
+- commits:
+    - ? body
+- version: 0.10.0
+- date: 2020-07-21T17:05:22Z
+- commits:
+    - hash: 7f7d8dbea25d78f863ed06ba409b21a144e34288
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: minor
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Add noop client implementation
+- commits:
+    - ? body
+- version: 0.9.1
+- date: 2020-06-17T12:08:24Z
+- commits:
+    - hash: 87fa997230e79f7506b69b9dab0d016c81200923
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Fix duplicate experiment values
+- commits:
+    - ? body
+- version: 0.9.0
+- date: 2020-06-12T10:59:06Z
+- commits:
+    - hash: e9274ff7c0361e86217549fd4e60ae4ba7a007d4
+- commits:
+    - author: Amit Solanki
+- commits:
+    - footers:
+        change-type: minor
+- commits:
+    - footers:
+        signed-off-by: Amit Solanki <amit@balena.io>
+- commits:
+    - subject: Call identify on re-engagement
+- commits:
+    - ? body
+- version: 0.8.0
+- date: 2020-05-27T17:58:08Z
+- commits:
+    - hash: 7fe44b2b973d719076bd587fd0a22347add863d2
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Extend test coverage
+- commits:
+    - ? body
+- commits:
+    - hash: b25e1a7abc9a66bbe6501481c73a6fbeacb94e8d
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: minor
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Remove mixpanel from the interface
+- commits:
+    - ? body
+- version: 0.7.0
+- date: 2020-05-27T16:14:03Z
+- commits:
+    - hash: fc55c52dde56e624466316893abe22d5d762681b
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Expose device ID regeneration
+- commits:
+    - ? body
+- commits:
+    - hash: e2089b3a99c072bae104dea6543ba889293fa4e9
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: minor
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Add user ID and properties interface
+- commits:
+    - ? body
+- version: 0.6.2
+- date: 2020-05-26T17:49:29Z
+- commits:
+    - hash: 2fa42ee01e40a0f15f5e8fe5f8d99fa833842045
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Fix mixpanel dependency
+- commits:
+    - body: We rely on it in runtime in order to detect a device ID.
+- version: 0.6.1
+- date: 2020-05-18T13:25:29Z
+- commits:
+    - hash: dd4bc01b91b6ac125a46dd942a1190b6f7f1ba96
+- commits:
+    - author: JSReds
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Andrea Rosci <andrear@balena.io>
+- commits:
+    - subject: "fix: pin mixpanel-browser version"
+- commits:
+    - body: pin dependency to specific version before breaking change
+- version: 0.6.0
+- date: 2020-05-07T11:53:01Z
+- commits:
+    - hash: 1e12b4790178dfe70286495e483d446746dc8ff5
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: minor
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Add generic track to webtracker
+- commits:
+    - body: Note that the interface of trackPageView method is changed.
+- version: 0.5.3
+- date: 2020-04-16T14:31:31Z
+- commits:
+    - hash: 225c513baba708a6600cae624f5c6e85c37a8b43
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Make web tracker more flexible
+- commits:
+    - body: Also, adds a page view tracking example to readme.
+- version: 0.5.2
+- date: 2020-04-13T18:31:02Z
+- commits:
+    - hash: 024b2eba1f5c59eee6955df63526b63eceba8de8
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Ensure library version is set
+- commits:
+    - ? body
+- version: 0.5.1
+- date: 2020-04-13T18:05:51Z
+- commits:
+    - hash: 3d13e7f5745785e7d80fda30504f3d3bb3cffbcf
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Remove mixpanel dependency from url params code
+- commits:
+    - ? body
+- commits:
+    - hash: fdda3601c5cf7b1e70b327b239b1c9a23af91e18
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Report current url with page view event
+- commits:
+    - ? body
+- version: 0.5.0
+- date: 2020-04-13T16:35:04Z
+- commits:
+    - hash: 289c3a57409b06c021cd7ce594d814c8a6ccc05b
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: minor
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Add WebTracker interface
+- commits:
+    - ? body
+- version: 0.4.4
+- date: 2020-04-01T08:05:05Z
+- commits:
+    - hash: bb0e31c64e1cab86fa354cfc4cf948bc268700d1
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Adjust compiler settings
+- commits:
+    - ? body
+- version: 0.4.3
+- date: 2020-03-31T10:58:31Z
+- commits:
+    - hash: f2b54f14c91e87c115076534f91376ecbc05f294
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Bump typescript version
+- commits:
+    - ? body
+- version: 0.4.2
+- date: 2020-03-27T11:39:01Z
+- commits:
+    - hash: 2688848ddc17e3873cd5882a42caf2075b18e5f4
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Fix devices linking
+- commits:
+    - body: Previous implementation was not sending identify calls.
+- version: 0.4.1
+- date: 2020-03-26T16:57:43Z
+- commits:
+    - hash: 40195f6433c2dddc41a53fe8069f45ecde309092
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Adapt config to analytics-backend API
+- commits:
+    - ? body
+- version: 0.4.0
+- date: 2020-03-18T12:31:31Z
+- commits:
+    - hash: 96b5b020f19f06ac1b7313fa3077178b7895a211
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: minor
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Add experiments implementation
+- commits:
+    - body: LocalExperiment allows defining UI experiments backed with localStorage.
+- version: 0.3.1
+- date: 2020-03-18T11:59:51Z
+- commits:
+    - hash: 2923bf4406ac39f05bb657808736eed9479301bf
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Bump balena linter
+- commits:
+    - ? body
+- version: 0.3.0
+- date: 2020-03-17T14:32:13Z
+- commits:
+    - hash: fdb6ae18a91050bd7a50d8bcd7f8e4a91c4cf82b
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: minor
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Add ampiltude integration
+- commits:
+    - ? body
+- version: 0.2.0
+- date: 2020-03-16T17:21:29Z
+- commits:
+    - hash: b80bf5ca802a798a2207be33a0ad607626084490
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: minor
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Replace cookies implementation
+- commits:
+    - body: |-
+        We need more functionality from the cookies package
+        (for, instance, listing all available cookies).
+- commits:
+    - hash: 943e3c1d33060108b890cc6b57f35e0184558ab9
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        chage-type: patch
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Bump resin-lint version
+- commits:
+    - ? body
+- version: 0.1.2
+- date: 2019-10-20T14:40:32Z
+- commits:
+    - hash: 2732d5106f77b6ece5e5b221864af6fe39150e79
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Update readme
+- commits:
+    - ? body
+- commits:
+    - hash: ba0e499a3c1eaa244aafe8742ebe3262b9c8be44
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Move typescript to dev dependencies
+- commits:
+    - ? body
+- version: 0.1.1
+- date: 2019-10-18T14:46:56Z
+- commits:
+    - hash: 03696b485baf9de95251c7f53e024bad5c3bee2b
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Fix device ID cookie path
+- commits:
+    - ? body
+- version: 0.1.0
+- date: 2019-10-14T15:30:58Z
+- commits:
+    - hash: 5836fbb91baa905b7226b295b063856e47caceb6
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: minor
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Add URL query string tools
+- commits:
+    - body: |-
+        AnalyticsUrlParam class encapsulates the logic of handling
+        passed URL parameters with anonymous device identifier.
+- commits:
+    - hash: ad69d6499854bfb48212dcc2eb77c126039362b7
+- commits:
+    - author: Roman Mazur
+- commits:
+    - footers:
+        change-type: patch
+- commits:
+    - footers:
+        signed-off-by: Roman Mazur <roman@balena.io>
+- commits:
+    - subject: Avoid calling mixpanel in constructor
+- commits:
+    - body: |-
+        It's possible clients will construct AnalyticsUrlParams before
+        mixpanel is initialized.
+- commits:
+    - hash: 7de5963c175222572d8b27442494b8e1993e3116
+- commits:
+    - author: Roman Mazur
+- commits:
+    - subject: Remove lodash dependency
+- commits:
+    - ? body
