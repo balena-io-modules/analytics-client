@@ -1,7 +1,8 @@
 {
   "compilerOptions": {
     "lib": [
-      "ES6","DOM"
+      "ES6",
+      "DOM"
     ],
     "module": "commonjs",
     "target": "es5",
@@ -22,10 +23,10 @@
   "include": [
     "index.ts",
     "src/**/*.ts",
-    "test/**/*.ts",
     "typings/**/*.ts"
   ],
   "exclude": [
-    "node_modules"
+    "node_modules",
+    "test/**/*.ts"
   ]
 }
