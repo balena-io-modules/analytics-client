@@ -1,4 +1,14 @@
 - commits:
+    - subject: removes tests and other files from delivery bundle
+      hash: c35a94bc130ae17dc1f30259d917b32b37b6fbc5
+      body: ""
+      footer:
+        change-type: patch
+      author: Otávio Jacobi
+  version: 1.8.3
+  title: ""
+  date: 2022-09-27T17:45:29.586Z
+- commits:
     - subject: removes not needed repo.yml file
       hash: 2a04d51a4aefb1be74d7fd3095f6ec622fff1f6c
       body: ""
