@@ -55,7 +55,6 @@ describe('LocalExperiment', () => {
 					var2Counter++;
 				}
 			}
-			console.log('counters:', var1Counter, var2Counter);
 			expect(var1Counter).toBeGreaterThan(0);
 			expect(var2Counter).toBeGreaterThan(0);
 		});
@@ -66,10 +65,7 @@ describe('LocalExperiment', () => {
 			projectName: 'balena-test',
 			componentName: 'test',
 		});
-		let identifyCallsCount = 0;
-		analytics.amplitude().identify = () => {
-			identifyCallsCount++;
-		};
+		analytics.identify = jest.fn();
 
 		const exp = new LocalExperiment<'var1' | 'var2'>(
 			'amplitude-test',
@@ -79,10 +75,10 @@ describe('LocalExperiment', () => {
 
 		it('sets user property', () => {
 			exp.engage('test-device-1');
-			expect(identifyCallsCount).toStrictEqual(1);
+			expect(analytics.identify).toBeCalledTimes(1);
 			exp.engage('test-device-1');
 			// identify is called on every engage call.
-			expect(identifyCallsCount).toStrictEqual(2);
+			expect(analytics.identify).toBeCalledTimes(2);
 		});
 	});
 });

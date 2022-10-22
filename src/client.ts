@@ -1,7 +1,6 @@
-import amplitude = require('amplitude-js');
-import * as Cookies from 'js-cookie';
-import mixpanel = require('mixpanel-browser');
+import { Identify, Types, createInstance } from '@amplitude/analytics-browser';
 import { version } from '../package.json';
+import { getAmplitudeEndpoint } from './common';
 import {
 	COOKIES_TTL_DAYS,
 	USER_PROP_ANALYTICS_CLIENT_VERSION,
@@ -21,9 +20,6 @@ export interface UserProperties {
  * Client defines an interface for interaction wih balena analytics backend.
  */
 export interface Client {
-	/** Returns Amplitude service client configured to interact with balena analytics backend. */
-	amplitude(): amplitude.AmplitudeClient;
-
 	/** Return the ID used to identify the current device. */
 	deviceId(): string;
 
@@ -49,111 +45,96 @@ export interface Client {
 	setUserId(userId: string): void;
 
 	setUserProperties(props: UserProperties): void;
+
+	identify(identify: Identify): void;
 }
 
 /**
  * Analytics client configuration.
  */
 export interface Config {
-	/** Analytics backend base endpoint. */
+	/** Analytics backend base endpoint. e.g data.balena-cloud.com */
 	endpoint?: string;
+
 	/** Project name for the analytics client. */
 	projectName: string;
+
 	/** Name of the component that does the reporting. */
 	componentName: string;
+
 	/** Component version name. */
 	componentVersion?: string;
 
 	/** Optional config for Amplitude client. */
-	amplitude?: Exclude<AmplitudeOverride, amplitude.Config>;
+	amplitude?: Omit<Types.BrowserOptions, keyof AmplitudeOverride>;
 
 	/** Optional device_id for Amplitude client. */
 	deviceId?: string;
 }
 
 interface AmplitudeOverride {
-	apiEndpoint?: string;
+	endpoint?: string;
+	deviceId?: string;
 	cookieExpiration?: number;
-	includeReferrer?: boolean;
-	includeUtm?: boolean;
-	sameSiteCookie?: 'Lax' | 'Strict' | 'None';
 }
 
-const identifyObject = () =>
-	new amplitude.Identify().set(USER_PROP_ANALYTICS_CLIENT_VERSION, version);
+const getIdentifyObject = () => {
+	const identifyObject = new Identify();
+	identifyObject.set(USER_PROP_ANALYTICS_CLIENT_VERSION, version);
+	return identifyObject;
+};
 
 class DefaultClient implements Client {
-	private readonly amplitudeInstance: amplitude.AmplitudeClient;
+	private readonly amplitudeInstance: Types.BrowserClient;
 
-	constructor(private readonly config: Config) {
-		this.amplitudeInstance = amplitude.getInstance(config.projectName);
+	constructor(config: Config) {
+		this.amplitudeInstance = createInstance();
 
-		const amplConfig: amplitude.Config = Object.assign({}, config.amplitude);
+		const amplConfig: Types.BrowserOptions = Object.assign(
+			{},
+			config.amplitude,
+		);
+
 		if (config.endpoint) {
-			amplConfig.apiEndpoint = `${config.endpoint}/amplitude`;
+			amplConfig.serverUrl = getAmplitudeEndpoint(config.endpoint);
 		}
-		// TODO: Move this to the web tracker.
-		amplConfig.cookieExpiration = COOKIES_TTL_DAYS;
-		amplConfig.includeReferrer = true;
-		amplConfig.includeUtm = true;
-		amplConfig.sameSiteCookie = 'Lax';
-		amplConfig.unsetParamsReferrerOnNewSession = true;
-
 		if (config.deviceId) {
 			amplConfig.deviceId = config.deviceId;
 		}
+		if (config.componentVersion) {
+			amplConfig.appVersion = config.componentVersion;
+		}
+
+		// TODO: Move this to the web tracker.
+		amplConfig.cookieExpiration = COOKIES_TTL_DAYS;
 
 		this.amplitudeInstance.init(config.projectName, undefined, amplConfig);
-		this.checkMixpanelUsage();
 
-		this.amplitudeInstance.identify(
-			identifyObject().set(USER_PROP_COMPONENT_NAME, config.componentName),
-		);
-		if (config.componentVersion) {
-			this.amplitudeInstance.setVersionName(config.componentVersion);
-		}
-	}
-
-	private checkMixpanelUsage() {
-		// TODO: Move this to the web tracker.
-		let mixpanelDataPresent = false;
-		for (const key in Cookies.get()) {
-			if (key.startsWith('mp_' + this.config.projectName)) {
-				mixpanelDataPresent = true;
-				break;
-			}
-		}
-
-		if (mixpanelDataPresent) {
-			mixpanel.init(this.config.projectName, {
-				autotrack: false,
-			});
-			this.amplitudeInstance.setDeviceId(mixpanel.get_distinct_id());
-		}
-	}
-
-	amplitude(): amplitude.AmplitudeClient {
-		return this.amplitudeInstance;
+		const identifyObject = getIdentifyObject();
+		identifyObject.set(USER_PROP_COMPONENT_NAME, config.componentName);
+		this.amplitudeInstance.identify(identifyObject);
 	}
 
 	deviceId(): string {
-		return this.amplitudeInstance.options.deviceId!!;
+		return this.amplitudeInstance.getDeviceId()!;
 	}
 
 	sessionId(): number {
-		return this.amplitudeInstance.getSessionId();
+		return this.amplitudeInstance.getSessionId()!;
 	}
 
-	setDeviceId(deviceId: string) {
+	setDeviceId(deviceId: string): void {
 		this.amplitudeInstance.setDeviceId(deviceId);
 	}
 
-	setSessionId(sessionId: number) {
+	setSessionId(sessionId: number): void {
 		this.amplitudeInstance.setSessionId(sessionId);
 	}
 
-	regenerateDeviceId() {
-		this.amplitudeInstance.regenerateDeviceId();
+	regenerateDeviceId(): void {
+		const userId = this.amplitudeInstance.getUserId();
+		this.amplitudeInstance.reset();
+		this.amplitudeInstance.setUserId(userId);
 	}
 
 	linkDevices(userId: string, deviceIds: string[]): void {
@@ -163,9 +144,9 @@ class DefaultClient implements Client {
 		}
 		this.setUserId(userId);
 
-		const identifyData = identifyObject();
+		const identifyData = getIdentifyObject();
 
-		// Make sure thee current device ID is associated.
+		// Make sure the current device ID is associated.
 		this.amplitudeInstance.identify(identifyData);
 
 		for (const deviceId of deviceIds) {
@@ -180,20 +161,20 @@ class DefaultClient implements Client {
 		if (finalDeviceId != null) {
 			this.amplitudeInstance.setDeviceId(finalDeviceId);
 		} else {
-			this.amplitudeInstance.regenerateDeviceId();
+			this.regenerateDeviceId();
 		}
 	}
 
 	track(eventType: string, props?: Properties): void {
-		this.amplitudeInstance.logEvent(eventType, props);
+		this.amplitudeInstance.track(eventType, props);
 	}
 
-	setUserId(userId: string) {
+	setUserId(userId: string): void {
 		this.amplitudeInstance.setUserId(userId);
 	}
 
-	setUserProperties(props: UserProperties) {
-		const identify = new amplitude.Identify();
+	setUserProperties(props: UserProperties): void {
+		const identify = new Identify();
 		for (const key in props.set) {
 			if (props.set.hasOwnProperty(key)) {
 				identify.set(key, props.set[key]);
@@ -207,6 +188,10 @@ class DefaultClient implements Client {
 
 		this.amplitudeInstance.identify(identify);
 	}
+
+	identify(identify: Identify): void {
+		this.amplitudeInstance.identify(identify);
+	}
 }
 
 /** NoopClient does nothing when  */
@@ -217,10 +202,6 @@ class NoopClient implements Client {
 		if (this.logEvents) {
 			console.log('Analytics client:', ...args);
 		}
-	}
-
-	amplitude(): amplitude.AmplitudeClient {
-		throw new Error('Not supported');
 	}
 
 	deviceId() {
@@ -252,6 +233,10 @@ class NoopClient implements Client {
 
 	track(eventType: string, props?: Properties): void {
 		this.log(`track [${eventType}]`, props);
+	}
+
+	identify(): void {
+		/* nothing */
 	}
 }
 

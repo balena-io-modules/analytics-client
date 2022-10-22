@@ -43,6 +43,7 @@ const getPageloadMetrics = () => {
 	if (!entry || entry.length < 1) {
 		return {};
 	}
+
 	const data = entry[0] as PerformanceNavigationTiming;
 
 	return {

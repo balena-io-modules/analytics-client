@@ -13,7 +13,7 @@
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "scripts": {
-    "test": "jest",
+    "test": "jest --coverage",
     "prettify": "balena-lint --typescript --fix src/ test/ index.ts",
     "lint": "balena-lint --typescript src/ test/ index.ts && tsc --noEmit",
     "build": "npm run lint && npm run test && tsc && webpack",
@@ -23,17 +23,15 @@
     "dist/"
   ],
   "dependencies": {
-    "@types/amplitude-js": "5.11.0",
-    "amplitude-js": "5.11.0",
-    "js-cookie": "^3.0.1",
-    "mixpanel-browser": "^2.29.0"
+    "@amplitude/analytics-browser": "^1.5.4",
+    "@amplitude/marketing-analytics-browser": "^0.2.4",
+    "js-cookie": "^3.0.1"
   },
   "devDependencies": {
     "@balena/lint": "^6.2.0",
     "@types/jest": "^27.5.1",
     "@types/js-cookie": "^3.0.2",
     "@types/lodash": "^4.14.182",
-    "@types/mixpanel-browser": "^2.38.0",
     "husky": "^8.0.1",
     "jest": "^28.1.0",
     "jest-environment-jsdom": "^28.1.0",
