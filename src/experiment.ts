@@ -1,4 +1,4 @@
-import { Identify } from 'amplitude-js';
+import { Identify } from '@amplitude/analytics-browser';
 import { Client } from './client';
 
 const LOCAL_STORAGE_EXPERIMENTS_PREFIX = '__analytics_experiments_';
@@ -49,28 +49,11 @@ export class LocalExperiment<Variation extends string>
 			.join(', ');
 	}
 
-	private static amplitudePreInsert(
-		identify: Identify,
-		name: string,
-		value: string,
-	): Identify {
-		// XXX: $preInsert is documented but not exposed in the JS SDK.
-		// https://help.amplitude.com/hc/en-us/articles/205406617#keys-for-the-identification-argument
-		(identify as any)._addOperation('$preInsert', name, value);
-		return identify;
-	}
-
 	private identify(result: Variation) {
 		if (this.analytics != null) {
-			this.analytics
-				.amplitude()
-				.identify(
-					LocalExperiment.amplitudePreInsert(
-						new Identify(),
-						'Experiments',
-						`${this.name}_${result}`,
-					),
-				);
+			const identifyObj = new Identify();
+			identifyObj.preInsert('Experiments', `${this.name}_${result}`);
+			this.analytics.identify(identifyObj);
 		}
 	}
 

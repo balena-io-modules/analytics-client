@@ -1,19 +1,28 @@
-import { createClient } from '../src/client';
+import { Client } from '../src/client';
 import { createWebTracker } from '../src/web';
 
 describe('WebTracker', () => {
-	const client = createClient({
-		projectName: 'balena-test',
-		componentName: 'test',
-	});
-
 	let passedEventType: string = '';
 	let passedData: any = null;
-	client.amplitude().logEvent = (event: string, data?: any) => {
-		passedEventType = event;
-		passedData = data;
-		return 0;
+	const createMockClient = (): Client => {
+		return {
+			track: (event: string, data?: any) => {
+				passedEventType = event;
+				passedData = data;
+			},
+			deviceId: jest.fn(),
+			sessionId: jest.fn(),
+			regenerateDeviceId: jest.fn(),
+			linkDevices: jest.fn(),
+			setDeviceId: jest.fn(),
+			setSessionId: jest.fn(),
+			setUserId: jest.fn(),
+			setUserProperties: jest.fn(),
+			identify: jest.fn(),
+		};
 	};
+
+	const client = createMockClient();
 
 	const ensurePageViewProperties = () => {
 		expect(passedData).toHaveProperty('metrics');
@@ -79,6 +88,32 @@ describe('WebTracker', () => {
 			tracker.trackPageView('test event');
 			expect(passedEventType).toStrictEqual('test event');
 			ensurePageViewProperties();
+		});
+	});
+
+	describe('Page load metrics', () => {
+		const tracker = createWebTracker(client);
+
+		it('should return with performance measures from window entries', () => {
+			Object.defineProperty(window, 'performance', {
+				value: {
+					getEntriesByType: jest.fn().mockReturnValue([
+						{
+							domInteractive: 8,
+							domComplete: 9,
+							loadEventEnd: 10,
+							startTime: 2,
+						},
+					]),
+				},
+			});
+
+			tracker.trackPageView();
+			expect(passedData.metrics).toEqual({
+				domInteractive: 6,
+				domComplete: 7,
+				loadEventEnd: 8,
+			});
 		});
 	});
 });
