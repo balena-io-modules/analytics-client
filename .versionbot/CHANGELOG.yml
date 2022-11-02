@@ -1,4 +1,17 @@
 - commits:
+    - subject: Update amplitude-js client dependency
+      hash: cb95c7f372950bd316450408e877f49be5db21ac
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+        Signed-off-by: Otavio Jacobi <otavio.jacobi@balena.io>
+        signed-off-by: Otavio Jacobi <otavio.jacobi@balena.io>
+      author: Otávio Jacobi
+  version: 2.0.0
+  title: ""
+  date: 2022-11-02T15:12:17.336Z
+- commits:
     - subject: removes tests and other files from delivery bundle
       hash: c35a94bc130ae17dc1f30259d917b32b37b6fbc5
       body: ""
@@ -50,7 +63,7 @@
 - commits:
     - subject: fixes old vulnerable dependencies
 - commits:
-    - ? body
+    - body: null
 - commits:
     - hash: cba455edc3be4bdf2f50415a8804a1d36c6e0c81
 - commits:
@@ -64,7 +77,7 @@
 - commits:
     - subject: fixes access config for ci
 - commits:
-    - ? body
+    - body: null
 - commits:
     - hash: 5cd3f7dc839c56f205a9f66cc145d8e8586002bb
 - commits:
@@ -78,7 +91,7 @@
 - commits:
     - subject: adds optional props to track page view
 - commits:
-    - ? body
+    - body: null
 - version: 1.7.0
 - date: 2021-08-13T15:50:24Z
 - commits:
@@ -94,7 +107,7 @@
 - commits:
     - subject: Get getQueryString to expect relative URLs too
 - commits:
-    - ? body
+    - body: null
 - commits:
     - hash: 652d25357c1160f62c78ae6105fead8a81e67916
 - commits:
@@ -102,7 +115,7 @@
 - commits:
     - subject: log error before returning
 - commits:
-    - ? body
+    - body: null
 - commits:
     - hash: 8faf51bfe26c320e59ff2aa88b50d155b515fe5a
 - commits:
@@ -110,7 +123,7 @@
 - commits:
     - subject: added node types dependency
 - commits:
-    - ? body
+    - body: null
 - commits:
     - hash: ef48d4d2102007e73dbcd8e7620c7004904f374d
 - commits:
@@ -118,7 +131,7 @@
 - commits:
     - subject: prettified
 - commits:
-    - ? body
+    - body: null
 - commits:
     - hash: 52e2284b7f6f44a1aa310470454cb3c515ad20a7
 - commits:
@@ -128,7 +141,7 @@
         github.com:balena-io-modules/analytics-client into
         getQueryString_expect_relative_url
 - commits:
-    - ? body
+    - body: null
 - version: 1.6.0
 - date: 2021-04-23T09:20:50Z
 - commits:
@@ -208,7 +221,7 @@
 - commits:
     - subject: Implement session ID parsing and logic
 - commits:
-    - ? body
+    - body: null
 - commits:
     - hash: 7963ec02e48dc75389be0195b7049232a3888f78
 - commits:
@@ -222,7 +235,7 @@
 - commits:
     - subject: Don't store session ID in a cookie
 - commits:
-    - ? body
+    - body: null
 - version: 1.2.1
 - date: 2021-02-24T07:36:32Z
 - commits:
@@ -238,7 +251,7 @@
 - commits:
     - subject: Fix `optOutRequested` typo
 - commits:
-    - ? body
+    - body: null
 - version: 1.2.0
 - date: 2021-02-22T12:05:33Z
 - commits:
@@ -262,7 +275,7 @@
 - commits:
     - subject: Prettified and lint code
 - commits:
-    - ? body
+    - body: null
 - version: 1.1.0
 - date: 2021-02-17T17:45:19Z
 - commits:
@@ -278,7 +291,7 @@
 - commits:
     - subject: Add trackNavigationClick
 - commits:
-    - ? body
+    - body: null
 - version: 1.0.0
 - date: 2021-02-17T14:44:37Z
 - commits:
@@ -321,7 +334,7 @@
 - commits:
     - subject: Address PR feedback
 - commits:
-    - ? body
+    - body: null
 - version: 0.12.0
 - date: 2020-12-14T11:44:02Z
 - commits:
@@ -337,7 +350,7 @@
 - commits:
     - subject: Add documentation
 - commits:
-    - ? body
+    - body: null
 - commits:
     - hash: 575e4cf7091a190f8e72eab5ec70238de31d5d2d
 - commits:
@@ -345,7 +358,7 @@
 - commits:
     - subject: Address PR feedback
 - commits:
-    - ? body
+    - body: null
 - version: 0.11.2
 - date: 2020-07-29T11:28:41Z
 - commits:
@@ -427,7 +440,7 @@
 - commits:
     - subject: Add opt-out URL parameter parsing
 - commits:
-    - ? body
+    - body: null
 - commits:
     - hash: 6014fc5380edc93bfad707d6584d4418b00c3b74
 - commits:
@@ -441,7 +454,7 @@
 - commits:
     - subject: Allow setting cliient after URL params consumption
 - commits:
-    - ? body
+    - body: null
 - version: 0.10.0
 - date: 2020-07-21T17:05:22Z
 - commits:
@@ -457,7 +470,7 @@
 - commits:
     - subject: Add noop client implementation
 - commits:
-    - ? body
+    - body: null
 - version: 0.9.1
 - date: 2020-06-17T12:08:24Z
 - commits:
@@ -473,7 +486,7 @@
 - commits:
     - subject: Fix duplicate experiment values
 - commits:
-    - ? body
+    - body: null
 - version: 0.9.0
 - date: 2020-06-12T10:59:06Z
 - commits:
@@ -489,7 +502,7 @@
 - commits:
     - subject: Call identify on re-engagement
 - commits:
-    - ? body
+    - body: null
 - version: 0.8.0
 - date: 2020-05-27T17:58:08Z
 - commits:
@@ -505,7 +518,7 @@
 - commits:
     - subject: Extend test coverage
 - commits:
-    - ? body
+    - body: null
 - commits:
     - hash: b25e1a7abc9a66bbe6501481c73a6fbeacb94e8d
 - commits:
@@ -519,7 +532,7 @@
 - commits:
     - subject: Remove mixpanel from the interface
 - commits:
-    - ? body
+    - body: null
 - version: 0.7.0
 - date: 2020-05-27T16:14:03Z
 - commits:
@@ -535,7 +548,7 @@
 - commits:
     - subject: Expose device ID regeneration
 - commits:
-    - ? body
+    - body: null
 - commits:
     - hash: e2089b3a99c072bae104dea6543ba889293fa4e9
 - commits:
@@ -549,7 +562,7 @@
 - commits:
     - subject: Add user ID and properties interface
 - commits:
-    - ? body
+    - body: null
 - version: 0.6.2
 - date: 2020-05-26T17:49:29Z
 - commits:
@@ -629,7 +642,7 @@
 - commits:
     - subject: Ensure library version is set
 - commits:
-    - ? body
+    - body: null
 - version: 0.5.1
 - date: 2020-04-13T18:05:51Z
 - commits:
@@ -645,7 +658,7 @@
 - commits:
     - subject: Remove mixpanel dependency from url params code
 - commits:
-    - ? body
+    - body: null
 - commits:
     - hash: fdda3601c5cf7b1e70b327b239b1c9a23af91e18
 - commits:
@@ -656,7 +669,7 @@
 - commits:
     - subject: Report current url with page view event
 - commits:
-    - ? body
+    - body: null
 - version: 0.5.0
 - date: 2020-04-13T16:35:04Z
 - commits:
@@ -672,7 +685,7 @@
 - commits:
     - subject: Add WebTracker interface
 - commits:
-    - ? body
+    - body: null
 - version: 0.4.4
 - date: 2020-04-01T08:05:05Z
 - commits:
@@ -688,7 +701,7 @@
 - commits:
     - subject: Adjust compiler settings
 - commits:
-    - ? body
+    - body: null
 - version: 0.4.3
 - date: 2020-03-31T10:58:31Z
 - commits:
@@ -704,7 +717,7 @@
 - commits:
     - subject: Bump typescript version
 - commits:
-    - ? body
+    - body: null
 - version: 0.4.2
 - date: 2020-03-27T11:39:01Z
 - commits:
@@ -736,7 +749,7 @@
 - commits:
     - subject: Adapt config to analytics-backend API
 - commits:
-    - ? body
+    - body: null
 - version: 0.4.0
 - date: 2020-03-18T12:31:31Z
 - commits:
@@ -768,7 +781,7 @@
 - commits:
     - subject: Bump balena linter
 - commits:
-    - ? body
+    - body: null
 - version: 0.3.0
 - date: 2020-03-17T14:32:13Z
 - commits:
@@ -784,7 +797,7 @@
 - commits:
     - subject: Add ampiltude integration
 - commits:
-    - ? body
+    - body: null
 - version: 0.2.0
 - date: 2020-03-16T17:21:29Z
 - commits:
@@ -816,7 +829,7 @@
 - commits:
     - subject: Bump resin-lint version
 - commits:
-    - ? body
+    - body: null
 - version: 0.1.2
 - date: 2019-10-20T14:40:32Z
 - commits:
@@ -832,7 +845,7 @@
 - commits:
     - subject: Update readme
 - commits:
-    - ? body
+    - body: null
 - commits:
     - hash: ba0e499a3c1eaa244aafe8742ebe3262b9c8be44
 - commits:
@@ -846,7 +859,7 @@
 - commits:
     - subject: Move typescript to dev dependencies
 - commits:
-    - ? body
+    - body: null
 - version: 0.1.1
 - date: 2019-10-18T14:46:56Z
 - commits:
@@ -862,7 +875,7 @@
 - commits:
     - subject: Fix device ID cookie path
 - commits:
-    - ? body
+    - body: null
 - version: 0.1.0
 - date: 2019-10-14T15:30:58Z
 - commits:
@@ -904,4 +917,4 @@
 - commits:
     - subject: Remove lodash dependency
 - commits:
-    - ? body
+    - body: null
