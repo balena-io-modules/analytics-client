@@ -20,7 +20,7 @@
     "prepublish": "npm run build"
   },
   "files": [
-    "dist/"
+    "dist/", "src/", "index.ts"
   ],
   "dependencies": {
     "@amplitude/analytics-browser": "^1.5.4",
