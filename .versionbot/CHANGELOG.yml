@@ -1,4 +1,17 @@
 - commits:
+    - subject: Add src and index.ts to final bundle
+      hash: 92346366bf81101d28f4dc3e80e3f7c4ee3f8e00
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+        Signed-off-by: Otavio Jacobi <otavio.jacobi@balena.io>
+        signed-off-by: Otavio Jacobi <otavio.jacobi@balena.io>
+      author: Otávio Jacobi
+  version: 2.0.1
+  title: ""
+  date: 2022-11-10T18:13:57.846Z
+- commits:
     - subject: Update amplitude-js client dependency
       hash: cb95c7f372950bd316450408e877f49be5db21ac
       body: ""
