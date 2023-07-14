@@ -1,4 +1,27 @@
 - commits:
+    - subject: Fix typing errors
+      hash: e125e54e758b1778190ca6b832acb41a33e6b42e
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+    - subject: Update TypeScript to 4.9.5
+      hash: b4d49c05e61bef4c051d4c867b3e6a03a62113ff
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Thodoris Greasidis
+    - subject: "patch: Update flowzone.yml"
+      hash: dc2a11e27f91cbb25365aebc5d56512466d766bc
+      body: ""
+      footer: {}
+      author: Kyle Harding
+  version: 2.0.2
+  title: ""
+  date: 2023-07-14T18:37:52.504Z
+- commits:
     - subject: Add src and index.ts to final bundle
       hash: 92346366bf81101d28f4dc3e80e3f7c4ee3f8e00
       body: ""
