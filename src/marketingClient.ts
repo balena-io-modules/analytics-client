@@ -3,6 +3,7 @@ import {
 	Types,
 	createInstance,
 } from '@amplitude/marketing-analytics-browser';
+import type * as analyticsBrowser from '@amplitude/analytics-browser';
 
 import { version } from '../package.json';
 import { Client, Config, Properties, UserProperties } from './client';
@@ -25,10 +26,9 @@ class MarketingClient implements Client {
 	constructor(config: Config) {
 		this.amplitudeInstance = createInstance();
 
-		const amplConfig: Types.BrowserOptions = Object.assign(
-			{},
-			config.amplitude,
-		);
+		const amplConfig = {
+			...config.amplitude,
+		} as Types.BrowserOptions;
 
 		if (config.endpoint) {
 			amplConfig.serverUrl = getAmplitudeEndpoint(config.endpoint);
@@ -102,7 +102,7 @@ class MarketingClient implements Client {
 		this.amplitudeInstance.identify(identify);
 	}
 
-	identify(identify: Identify): void {
+	identify(identify: analyticsBrowser.Identify): void {
 		this.amplitudeInstance.identify(identify);
 	}
 }
