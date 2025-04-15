@@ -26,6 +26,7 @@
   ],
   "dependencies": {
     "@amplitude/analytics-browser": "^1.5.4",
+    "@amplitude/engagement-browser": "^0.0.6",
     "@amplitude/marketing-analytics-browser": "^0.2.4",
     "js-cookie": "^3.0.1"
   },
