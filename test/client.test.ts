@@ -4,8 +4,8 @@ import { createClient, createNoopClient, Client } from '../src/client';
 
 jest.mock('@amplitude/analytics-browser');
 
-const AmplitudeMock = jest.mocked(amplitude, true);
-const mockedCreateInstance = jest.mocked(createInstance, true);
+const AmplitudeMock = jest.mocked(amplitude);
+const mockedCreateInstance = jest.mocked(createInstance);
 
 describe('analytics-client suite', () => {
 	let client: Client;
@@ -32,7 +32,7 @@ describe('analytics-client suite', () => {
 		expect(AmplitudeMock.setUserId.mock.calls[0][0]).toEqual('test-user');
 
 		expect(AmplitudeMock.setDeviceId).toHaveBeenCalledTimes(3); // Number of devices + original device ID.
-		expect(AmplitudeMock.setDeviceId.mock.lastCall[0]).toEqual('d1');
+		expect(AmplitudeMock.setDeviceId.mock.lastCall?.[0]).toEqual('d1');
 	});
 
 	it('should not set the device ID to be equal to the user ID', () => {
@@ -40,7 +40,7 @@ describe('analytics-client suite', () => {
 		AmplitudeMock.getDeviceId.mockReturnValue(userId);
 		expect(client.deviceId()).toStrictEqual(userId);
 		client.linkDevices(userId, ['d1', userId]);
-		expect(AmplitudeMock.setDeviceId.mock.lastCall[0]).toStrictEqual('d1');
+		expect(AmplitudeMock.setDeviceId.mock.lastCall?.[0]).toStrictEqual('d1');
 	});
 
 	it('should call regenerate id in case where only possible device ID is equal to user ID', () => {
