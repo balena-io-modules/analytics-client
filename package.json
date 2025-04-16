@@ -15,7 +15,7 @@
   "scripts": {
     "test": "jest --coverage",
     "prettify": "balena-lint --typescript --fix src/ test/ index.ts",
-    "lint": "balena-lint --typescript src/ test/ index.ts && tsc --noEmit",
+    "lint": "balena-lint -src test index.ts",
     "build": "npm run lint && npm run test && tsc && webpack",
     "prepublish": "npm run build"
   },
@@ -30,7 +30,7 @@
     "js-cookie": "^3.0.1"
   },
   "devDependencies": {
-    "@balena/lint": "^6.2.0",
+    "@balena/lint": "^9.3.0",
     "@types/jest": "^27.5.1",
     "@types/js-cookie": "^3.0.2",
     "@types/lodash": "^4.14.182",
