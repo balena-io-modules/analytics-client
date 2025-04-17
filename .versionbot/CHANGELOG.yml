@@ -1,4 +1,36 @@
 - commits:
+    - subject: Add engagement plugin to Amplitude instance
+      hash: bf89797f90db8d3c161d963f287424e93e9f5998
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: myarmolinsky
+    - subject: Add dependency `@amplitude/engagement-browser`
+      hash: 630020df86a41b5dbc37a0791200aa22dd3756bc
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+    - subject: Update jest and related code
+      hash: ee419637bd2061d8954a8ee97c4fb67ac448ff4f
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+    - subject: Update @balena/lint
+      hash: 78b5b6b3560b73c26fb789dbe332fa87050da771
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+  version: 2.1.0
+  title: ""
+  date: 2025-04-17T13:43:36.034Z
+- commits:
     - subject: Fix typing errors
       hash: e125e54e758b1778190ca6b832acb41a33e6b42e
       body: ""
@@ -419,7 +451,8 @@
 
         property with default value None. However, it works only wih the
 
-        combination of setting Secure flag on a cookie in recent Chrome versions,
+        combination of setting Secure flag on a cookie in recent Chrome
+        versions,
 
         which is not done.
 
@@ -427,7 +460,8 @@
 
         SameSite attribute to Lax. It matches the latest Amplitude lib
 
-        beehaviour (we don't update to the latest because of some breaking changes).
+        beehaviour (we don't update to the latest because of some breaking
+        changes).
 
         We also pin the client version to avoid such issues in the future.
 - version: 0.11.1
@@ -454,11 +488,13 @@
 
         However, the Amplitude service seems to ignore the user_id in such case.
 
-        This leads to some problems with reporting (if the same browser is used for
+        This leads to some problems with reporting (if the same browser is used
+        for
 
         multiple users, we get events reported for a wrong user).
 
-        This change ensures we don't set device ID to a user ID value when we have
+        This change ensures we don't set device ID to a user ID value when we
+        have
 
         a choice (when multiple profiles are merged).
 - version: 0.11.0
