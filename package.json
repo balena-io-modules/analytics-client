@@ -15,7 +15,7 @@
   "scripts": {
     "test": "jest --coverage",
     "prettify": "balena-lint --typescript --fix src/ test/ index.ts",
-    "lint": "balena-lint --typescript src/ test/ index.ts && tsc --noEmit",
+    "lint": "balena-lint -src test index.ts",
     "build": "npm run lint && npm run test && tsc && webpack",
     "prepublish": "npm run build"
   },
@@ -26,19 +26,20 @@
   ],
   "dependencies": {
     "@amplitude/analytics-browser": "^1.5.4",
+    "@amplitude/engagement-browser": "^0.0.6",
     "@amplitude/marketing-analytics-browser": "^0.2.4",
     "js-cookie": "^3.0.1"
   },
   "devDependencies": {
-    "@balena/lint": "^6.2.0",
-    "@types/jest": "^27.5.1",
+    "@balena/lint": "^9.3.0",
+    "@types/jest": "^29.5.14",
     "@types/js-cookie": "^3.0.2",
     "@types/lodash": "^4.14.182",
     "husky": "^8.0.1",
-    "jest": "^28.1.0",
-    "jest-environment-jsdom": "^28.1.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "lint-staged": "^12.4.2",
-    "ts-jest": "^28.0.3",
+    "ts-jest": "^29.3.2",
     "ts-loader": "^9.3.0",
     "typescript": "^4.9.5",
     "webpack": "^5.72.1",
