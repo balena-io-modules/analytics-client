@@ -18,7 +18,8 @@
     "strictNullChecks": true,
     "moduleResolution": "node",
     "baseUrl": ".",
-    "keyofStringsOnly": false
+    "keyofStringsOnly": false,
+    "skipLibCheck": true
   },
   "include": [
     "index.ts",

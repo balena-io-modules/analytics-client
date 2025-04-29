@@ -70,10 +70,11 @@ describe('analytics-client suite', () => {
 		const amplitudeConfigForwarded = AmplitudeMock.init.mock.calls[0][2];
 		expect(amplitudeConfigForwarded).toStrictEqual({
 			serverUrl: 'https://some.host/amplitude/2/httpapi',
-			cookieExpiration: 300,
+			cookieOptions: { expiration: 300 },
 			partnerId: 'test',
 			deviceId: 'device-id',
 			appVersion: '1.0.0',
+			autocapture: false,
 		});
 	});
 
