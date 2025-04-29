@@ -1,5 +1,6 @@
 import { Identify, Types, createInstance } from '@amplitude/analytics-browser';
 import { plugin as engagementPlugin } from '@amplitude/engagement-browser';
+import { userAgentEnrichmentPlugin } from '@amplitude/plugin-user-agent-enrichment-browser';
 import { version } from '../package.json';
 import { getAmplitudeEndpoint } from './common';
 import {
@@ -91,6 +92,7 @@ class DefaultClient implements Client {
 	constructor(config: Config) {
 		this.amplitudeInstance = createInstance();
 		this.amplitudeInstance.add(engagementPlugin());
+		this.amplitudeInstance.add(userAgentEnrichmentPlugin());
 
 		const amplConfig: Types.BrowserOptions = Object.assign(
 			{},
