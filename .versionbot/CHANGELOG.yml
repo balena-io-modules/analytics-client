@@ -1,4 +1,50 @@
 - commits:
+    - subject: Remove `@amplitude/engagement-browser`
+      hash: e491ef9750a0ce9ccb11365ee5e95d6fb6925e20
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+    - subject: Add `userAgentEnrichmentPlugin` to Amplitude instance
+      hash: 8bf614e514fb25548d795a04495abf3629f2c750
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+    - subject: Remove dependency `@amplitude/marketing-analytics-browser`
+      hash: d57bbeb11de95506fb64afc5176350ebde04a441
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+    - subject: Add dependency `@amplitude/plugin-user-agent-enrichment-browser`
+      hash: 83f6e2b3aad66b76cb8ef1a2a156789fa411a383
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+    - subject: Update `@amplitude/analytics-browser` to v2
+      hash: f2079b0a81f8c8696f86ad32d2d046e0ea5ea4fb
+      body: ""
+      footer:
+        Change-type: major
+        change-type: major
+      author: myarmolinsky
+    - subject: Add `skipLibCheck` to tsconfig.json
+      hash: c5f250b688fa3eb7e18e55c625cf8c404dc5850d
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: myarmolinsky
+  version: 3.0.0
+  title: ""
+  date: 2025-04-29T21:03:24.861Z
+- commits:
     - subject: Add engagement plugin to Amplitude instance
       hash: bf89797f90db8d3c161d963f287424e93e9f5998
       body: ""
