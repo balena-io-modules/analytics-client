@@ -109,9 +109,11 @@ class DefaultClient implements Client {
 			amplConfig.appVersion = config.componentVersion;
 		}
 
+		amplConfig.cookieOptions ??= {};
 		// TODO: Move this to the web tracker.
-		amplConfig.cookieExpiration = COOKIES_TTL_DAYS;
+		amplConfig.cookieOptions.expiration = COOKIES_TTL_DAYS;
 
+		amplConfig.autocapture ??= false;
 		this.amplitudeInstance.init(config.projectName, undefined, amplConfig);
 
 		const identifyObject = getIdentifyObject();
