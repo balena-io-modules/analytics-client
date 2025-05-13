@@ -1,4 +1,15 @@
 - commits:
+    - subject: Add Amplitude Engagement SDK back
+      hash: dacf8c0ab4ca5f0fb7dfa4c34dbe747a37a176b4
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Jonathan Berger
+  version: 3.1.0
+  title: ""
+  date: 2025-05-13T14:05:48.709Z
+- commits:
     - subject: Remove `@amplitude/engagement-browser`
       hash: e491ef9750a0ce9ccb11365ee5e95d6fb6925e20
       body: ""
