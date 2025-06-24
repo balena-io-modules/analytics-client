@@ -42,7 +42,10 @@ class MarketingClient implements Client {
 		// TODO: Move this to the web tracker.
 		amplConfig.cookieOptions.expiration = COOKIES_TTL_DAYS;
 
-		amplConfig.autocapture ??= false;
+		amplConfig.autocapture ??= {
+			pageViews: false,
+			attribution: true,
+		};
 		this.amplitudeInstance.init(config.projectName, undefined, amplConfig);
 
 		const identifyObject = getIdentifyObject();
