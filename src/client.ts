@@ -91,6 +91,7 @@ class DefaultClient implements Client {
 
 	constructor(config: Config) {
 		this.amplitudeInstance = createInstance();
+        
 		this.amplitudeInstance.add(engagementPlugin());
 		this.amplitudeInstance.add(userAgentEnrichmentPlugin());
 
