@@ -8,6 +8,7 @@ import {
 	USER_PROP_ANALYTICS_CLIENT_VERSION,
 	USER_PROP_COMPONENT_NAME,
 } from './config';
+import { Experiment, ExperimentConfig } from '@amplitude/experiment-js-client';
 
 export interface Properties {
 	[key: string]: any;
@@ -91,6 +92,7 @@ class DefaultClient implements Client {
 
 	constructor(config: Config) {
 		this.amplitudeInstance = createInstance();
+
 		this.amplitudeInstance.add(engagementPlugin());
 		this.amplitudeInstance.add(userAgentEnrichmentPlugin());
 
@@ -246,8 +248,34 @@ class NoopClient implements Client {
 	}
 }
 
+declare global {
+	interface Window {
+		AMPLITUDE_CLIENT_DEPLOYMENT_KEY?: string;
+	}
+}
+
 export function createClient(config: Config): Client {
 	return new DefaultClient(config);
+}
+
+export function createExperimentClient({
+	isAnalyticsEnabled,
+	fetchTimeoutMillis = 4000,
+}: ExperimentConfig & {
+	isAnalyticsEnabled: boolean;
+}) {
+	const deploymentKey = window.AMPLITUDE_CLIENT_DEPLOYMENT_KEY;
+	if (!deploymentKey) {
+		return null;
+	}
+	const experimentClient = isAnalyticsEnabled
+		? Experiment.initializeWithAmplitudeAnalytics(deploymentKey, {
+				fetchTimeoutMillis,
+			})
+		: Experiment.initialize(deploymentKey, {
+				fetchTimeoutMillis,
+			});
+	return experimentClient;
 }
 
 export function createNoopClient(logEvents: boolean = false): Client {
