@@ -1,4 +1,15 @@
 - commits:
+    - subject: Update Amplitude engagement plugin
+      hash: 19c1345b4929adba16057446014b9c2385b22821
+      body: ""
+      footer:
+        Change-type: patch
+        change-type: patch
+      author: Jonathan Berger
+  version: 3.1.2
+  title: ""
+  date: 2025-09-09T10:11:02.892Z
+- commits:
     - subject: Re-add attribution capture that we removed when upgrading the Amplitude
         SDK to v2
       hash: 77f34371d1a5f932a4f1a47eb272f34e316ecb24
