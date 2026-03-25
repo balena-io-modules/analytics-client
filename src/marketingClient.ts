@@ -51,6 +51,9 @@ class MarketingClient implements Client {
 		const identifyObject = getIdentifyObject();
 		identifyObject.set(USER_PROP_COMPONENT_NAME, config.componentName);
 		this.amplitudeInstance.identify(identifyObject);
+		
+		// @ts-expect-error overriding the global scope
+		window?.amplitude = this.amplitudeInstance;
 	}
 
 	deviceId(): string {
