@@ -1,4 +1,15 @@
 - commits:
+    - subject: Add amplitude instance to the global scope
+      hash: e081578579e2ae1f87b3a59a38fcb027cf4ca59a
+      body: ""
+      footer:
+        Change-type: minor
+        change-type: minor
+      author: Jonathan Berger
+  version: 3.2.0
+  title: ""
+  date: 2026-03-26T08:12:57.094Z
+- commits:
     - subject: "Add id-token: write permission for NPM OIDC publishing"
       hash: 4e1abaeb6aa5e16ed530389805b35f5f234bcdc6
       body: ""
